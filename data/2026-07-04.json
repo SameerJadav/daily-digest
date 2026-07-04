@@ -1,13 +1,30 @@
 {
  "date": "2026-07-04",
  "date_label": "Saturday, 04 July 2026",
- "day_summary": "Millions of mourners gathered in Tehran for the funeral of Ayatollah Ali Khamenei, while record-breaking heat disrupted national celebrations in the United States. Meanwhile, Ukraine targeted Russian oil infrastructure, and Germany faced massive protests over a far-right political conference.",
+ "day_summary": "Millions of mourners gathered in Iran for the state funeral of Supreme Leader Ayatollah Ali Khamenei, who was recently killed in an airstrike. Meanwhile, the United States marked its 250th anniversary under a grueling heatwave, and India designated 23 Pakistan-based operatives as terrorists.",
  "stories": [
   {
-   "headline": "Millions Gather in Iran for Funeral of Ayatollah Ali Khamenei",
-   "what_happened": "Huge crowds gathered in Tehran for the start of a days-long funeral for Iran's former Supreme Leader, Ayatollah Ali Khamenei. Khamenei, who ruled Iran for more than three decades, was killed in February by an airstrike at the start of a war involving the US and Israel. The government has shut down the country for two days to encourage public participation in the ceremonies.",
-   "why_it_matters": "Khamenei's death is a major turning point for the region, and the massive public mourning is being used by the Iranian government to project a message of political continuity. Western analysts are watching how the transition of power unfolds during this period of heightened military tension.",
-   "what_to_watch_next": "Khamenei's body will travel across Iran and Iraq before being buried in the city of Mashhad. Watch for announcements on the selection of a new Supreme Leader by Iran's Assembly of Experts in the coming weeks.",
+   "headline": "Iran Begins Days-Long Funeral for Slain Supreme Leader Ali Khamenei",
+   "what_happened": "Huge crowds of mourners gathered in Tehran for the start of a six-day funeral procession for Iran's Supreme Leader Ayatollah Ali Khamenei. Khamenei, who ruled Iran for 37 years, was killed in February by an airstrike at the start of a war involving the US and Israel. The government shut down public offices for two days to allow the public to attend the ceremonies, which will end with his burial in the holy city of Mashhad.",
+   "why_it_matters": "Khamenei was the ultimate political and religious authority in Iran, making all final decisions on foreign policy and state matters. His death during an active conflict has raised fears of a power vacuum and further regional escalation. The state is using the massive funeral to project stability, unity, and a message of defiance against its adversaries.",
+   "what_to_watch_next": "The funeral ceremonies are scheduled to conclude with Khamenei's burial in Mashhad on Wednesday, July 8, after which the regime's assembly must finalize the process of choosing a permanent successor.",
+   "vocab": [
+    {
+     "term": "Ayatollah",
+     "say": "eye-uh-TOH-luh",
+     "meaning": "A high-ranking Shia Muslim cleric in Iran. In Iran's system, the Supreme Leader is always a senior Ayatollah who holds absolute power over the military and government."
+    },
+    {
+     "term": "Strait of Hormuz",
+     "say": "STRAYT of hor-MOOZ",
+     "meaning": "A narrow, strategic waterway between the Persian Gulf and the Gulf of Oman. It is a critical global shipping route through which a third of the world's liquefied natural gas and 20% of global oil consumption passes."
+    },
+    {
+     "term": "Theocracy",
+     "say": "thee-OK-ruh-see",
+     "meaning": "A form of government in which religious leaders rule in the name of God. Iran has been an Islamic theocracy since its 1979 revolution."
+    }
+   ],
    "sources": [
     {
      "outlet": "BBC",
@@ -35,6 +52,10 @@
     },
     {
      "outlet": "NPR",
+     "url": "https://www.npr.org/2026/07/03/nx-s1-5879278/irans-control-of-the-strait-of-hormuz-remains-a-powerful-bargaining-chip"
+    },
+    {
+     "outlet": "NPR",
      "url": "https://www.npr.org/2026/07/03/g-s1-131963/iran-plans-dayslong-funeral-for-supreme-leader-khamenei-after-war-death"
     },
     {
@@ -44,18 +65,60 @@
    ]
   },
   {
-   "headline": "Extreme Heat Disrupts US National Celebrations and Breaks Records Globally",
-   "what_happened": "A dangerous heatwave has blanketed the United States, forcing organizers to cancel high-profile Fourth of July events, including Washington DC's Independence Day parade. More than 165 million people are under heat warnings as temperatures surpass 38 degrees Celsius. Globally, cities like Sydney, Australia, recorded their hottest June on record, while the United Kingdom is bracing for a week-long heatwave.",
-   "why_it_matters": "The extreme weather is straining power grids, threatening public health, and disrupting major public events during the US's 250th anniversary. Scientists warn that these record-breaking temperatures are a direct consequence of global warming driven by greenhouse gas emissions.",
-   "what_to_watch_next": "Forecasters expect the US heatwave to persist for several days, while the UK's heat health alerts will remain in place through Saturday. Keep an eye on regional power grids for potential blackouts.",
+   "headline": "US Department of Justice Seeks to Dismiss Adani Charges Permanently",
+   "what_happened": "The United States Department of Justice asked a federal judge to permanently drop all criminal charges against Indian billionaire Gautam Adani and his associates. The motion came after federal judge Nicholas Garaufis demanded a clear explanation for why prosecutors wanted to end the case. The government told the court that the bribery and fraud indictment 'should never have been brought' in the first place.",
+   "why_it_matters": "In late 2023, US prosecutors accused Adani of paying hundreds of millions of dollars in bribes to Indian officials to secure lucrative solar energy contracts. The charges caused Adani Group companies to lose billions of dollars in market value and strained US-India business ties. Dropping the charges permanently is a massive victory for Adani and clears a major legal cloud over his global conglomerate.",
+   "what_to_watch_next": "Judge Nicholas Garaufis is expected to issue a final ruling on whether to officially and permanently dismiss the indictment in the coming days.",
+   "vocab": [
+    {
+     "term": "Indictment",
+     "say": "in-DYT-munt",
+     "meaning": "A formal written charge or accusation that a person has committed a serious crime. It is issued by a grand jury or court to start a criminal trial."
+    },
+    {
+     "term": "Department of Justice",
+     "say": "dih-PART-munt of JUSS-tiss",
+     "meaning": "The executive department of the United States government responsible for enforcing federal laws and administering justice."
+    },
+    {
+     "term": "Conglomerate",
+     "say": "kun-GLOM-ur-it",
+     "meaning": "A multi-industry company that owns a controlling stake in a number of smaller, seemingly unrelated companies. Adani Group is a major infrastructure and energy conglomerate."
+    }
+   ],
+   "sources": [
+    {
+     "outlet": "The Hindu",
+     "url": "https://www.thehindu.com/business/Industry/us-doj-says-adani-case-should-never-have-been-brought-urges-judge-to-drop-charges-permanently/article71183562.ece"
+    }
+   ]
+  },
+  {
+   "headline": "US Marks 250th Anniversary Amid Historic Heatwave and Cancelled Events",
+   "what_happened": "The United States marked its 250th Independence Day under a dangerous heatwave that forced the cancellation of major celebrations across the East Coast. Over 165 million Americans faced temperatures soaring past 38 degrees Celsius, leading organizers to cancel the flagship parade in Washington, DC. On the political front, President Donald Trump issued 11 pardons, including to nine people who violated the Clean Air Act, and used a speech at Mount Rushmore to criticize illegal immigration.",
+   "why_it_matters": "The extreme heat is a stark reminder of the accelerating effects of global climate change, which scientists say is making heatwaves longer and more intense. Trump's pardons of environmental violators on the same weekend highlighted deep political divisions over environmental protection and climate policy.",
+   "what_to_watch_next": "The US National Weather Service expects the extreme heat and humidity to persist across the East Coast and Midwest through the middle of next week, keeping heat safety alerts active.",
+   "vocab": [
+    {
+     "term": "Semiquincentennial",
+     "say": "sem-ee-kwin-sen-TEN-ee-ul",
+     "meaning": "A 250th anniversary. The term is being used to mark the United States' 250 years since declaring independence in 1776."
+    },
+    {
+     "term": "Clean Air Act",
+     "say": "kleen AIR akt",
+     "meaning": "A major United States federal law designed to control air pollution on a national level. It regulates emissions from hazardous sources like trucks and factories."
+    },
+    {
+     "term": "Pardon",
+     "say": "PAR-dun",
+     "meaning": "A government decision to allow a person who has been convicted of a crime to be free and absolved of that conviction. In the US, the president has broad powers to issue federal pardons."
+    }
+   ],
    "sources": [
     {
      "outlet": "BBC",
      "url": "https://www.bbc.co.uk/news/articles/cevlkzer7vdo?at_medium=RSS&at_campaign=rss"
-    },
-    {
-     "outlet": "BBC",
-     "url": "https://www.bbc.co.uk/news/articles/c8e2j0j87reo?at_medium=RSS&at_campaign=rss"
     },
     {
      "outlet": "BBC",
@@ -67,15 +130,15 @@
     },
     {
      "outlet": "Guardian",
-     "url": "https://www.theguardian.com/australia-news/2026/jul/04/sydney-records-hottest-june-since-1859-as-expert-warns-new-high-a-signature-of-global-warming"
-    },
-    {
-     "outlet": "Guardian",
-     "url": "https://www.theguardian.com/uk-news/2026/jul/04/week-long-heatwave-due-in-england-with-34c-peak-in-south-east"
+     "url": "https://www.theguardian.com/us-news/2026/jul/04/trump-pardons-11-people-fourth-of-july"
     },
     {
      "outlet": "Guardian",
      "url": "https://www.theguardian.com/us-news/2026/jul/04/washington-dc-fourth-of-july-parade-canceled-extreme-heat"
+    },
+    {
+     "outlet": "DW",
+     "url": "https://www.dw.com/en/us-president-trump-pardons-11-people-including-clean-air-act-violators/a-77829438?maca=en-rss-en-all-1573-rdf"
     },
     {
      "outlet": "DW",
@@ -85,9 +148,21 @@
   },
   {
    "headline": "India Designates 23 Pakistan-Based Operatives as Terrorists",
-   "what_happened": "The Indian government has officially designated 23 Pakistan-based individuals as terrorists under the country's anti-terror law, the Unlawful Activities (Prevention) Act. The home ministry states that these individuals belong to groups like Jaish-e-Mohammed and Lashkar-e-Taiba. Officials accuse them of planning and executing attacks in Jammu and Kashmir.",
-   "why_it_matters": "The designations allow Indian authorities to freeze the assets of these individuals and prosecute anyone who assists them. This move signals India's continued hardline stance against cross-border militancy and keeps diplomatic pressure on Pakistan to curb extremist groups on its soil.",
-   "what_to_watch_next": "Watch for official responses from Pakistan's foreign ministry. Indian security agencies are expected to share these updated lists with international partners to restrict the suspects' global travel and financial access.",
+   "what_happened": "The Indian government officially designated 23 Pakistan-based individuals as 'terrorists' under the country's strict anti-terror law, the Unlawful Activities Prevention Act. The Union Home Ministry accused the individuals of being associated with banned groups, including Jaish-e-Mohammed and Lashkar-e-Taiba. The ministry claims these operatives have been actively involved in planning and executing attacks in Jammu and Kashmir, as well as smuggling weapons across the border.",
+   "why_it_matters": "This mass designation is one of the largest single listings by the Indian government. It allows law enforcement agencies to freeze any assets these individuals might hold in India and prosecute anyone who provides them financial or material support. It also increases diplomatic pressure on Pakistan to shut down safe havens for these groups.",
+   "what_to_watch_next": "India's security agencies will monitor international financial channels to track and block assets linked to the newly designated individuals, while the ministry prepares to raise these listings at upcoming international counter-terrorism forums.",
+   "vocab": [
+    {
+     "term": "Unlawful Activities Prevention Act",
+     "say": "un-LAWF-ul ak-TIV-ih-teez pri-VEN-shun akt",
+     "meaning": "India's primary anti-terror law, often abbreviated as UAPA. It gives the central government broad powers to designate individuals and organizations as terrorists without a trial."
+    },
+    {
+     "term": "Jaish-e-Mohammed",
+     "say": "JYSH-eh-moh-HAM-ud",
+     "meaning": "An active Pakistan-based militant group seeking to separate Kashmir from India. It has been banned by India, the UN, and the US."
+    }
+   ],
    "sources": [
     {
      "outlet": "DW",
@@ -108,30 +183,50 @@
    ]
   },
   {
-   "headline": "Ukraine Hits Major Russian Oil Terminals Near St. Petersburg",
-   "what_happened": "Ukrainian long-range drones struck a major oil terminal and military facilities near the Russian city of St. Petersburg. Ukrainian President Volodymyr Zelensky said the attack targeted infrastructure that funds Russia's war effort. The strikes disrupted local internet services and flights, while Russia launched retaliatory strikes on a gas facility in central Ukraine.",
-   "why_it_matters": "St. Petersburg is hundreds of kilometers away from the Ukrainian border, showing Ukraine's growing capacity to strike deep inside Russian territory. By targeting oil facilities, Ukraine hopes to damage Russia's economy and disrupt fuel supplies used by the Russian military.",
-   "what_to_watch_next": "NATO leaders will meet at an upcoming summit where European members and Canada are expected to pledge long-term funding for Ukraine's defense, especially as US military commitments remain uncertain.",
-   "sources": [
+   "headline": "Mali's Army Battles Coordinated Rebel Attacks in the North",
+   "what_happened": "Tuareg-led separatist rebels and Islamist groups launched coordinated attacks on several towns and military bases in northern Mali. The rebel coalition said they targeted areas where Malian government troops and Russian private military fighters are stationed. Mali's military leadership later announced that they successfully repelled the assaults and regained full control of the affected towns, though they did not release casualty figures.",
+   "why_it_matters": "Mali has been unstable since a 2012 coup, after which Tuareg rebels and Al-Qaeda-linked groups seized parts of the north. The current military junta broke ties with Western allies like France and instead hired Russian mercenaries to help fight the insurgency. The renewed rebel offensive shows that the security situation remains highly fragile despite Russian military assistance.",
+   "what_to_watch_next": "Independent monitors and humanitarian groups are expected to release verified civilian casualty figures and displacement numbers from the affected northern regions in the coming days.",
+   "vocab": [
     {
-     "outlet": "BBC",
-     "url": "https://www.bbc.co.uk/news/articles/c8j2vmzxezro?at_medium=RSS&at_campaign=rss"
+     "term": "Tuareg",
+     "say": "TWAH-reg",
+     "meaning": "An ethnic group living primarily in the Sahara desert across North and West Africa. Some Tuareg groups in northern Mali have fought for years to establish an independent homeland called Azawad."
     },
     {
+     "term": "Junta",
+     "say": "HOON-tah",
+     "meaning": "A military group that rules a country after taking power by force. Mali has been governed by a military junta since a coup in 2020."
+    }
+   ],
+   "sources": [
+    {
      "outlet": "Al Jazeera",
-     "url": "https://www.aljazeera.com/news/2026/7/4/ukraine-hits-oil-and-military-facilities-near-russias-st-petersburg?traffic_source=rss"
+     "url": "https://www.aljazeera.com/news/2026/7/4/armed-fighters-attack-multiple-towns-across-mali?traffic_source=rss"
     },
     {
      "outlet": "DW",
-     "url": "https://www.dw.com/en/ukraine-strikes-oil-terminals-near-st-petersburg-in-russia/a-77830574?maca=en-rss-en-all-1573-rdf"
+     "url": "https://www.dw.com/en/mali-rebels-target-army-bases-prison-in-fresh-attacks/a-77833144?maca=en-rss-en-all-1573-rdf"
     }
    ]
   },
   {
-   "headline": "Mass Protests and Clashes Erupt at Far-Right Party Conference in Germany",
-   "what_happened": "Around 20,000 protesters gathered in the German city of Erfurt to demonstrate against the far-right Alternative for Germany (AfD) party's national conference. Riot police clashed with protesters who tried to block roads and prevent party delegates from entering. Inside the venue, the AfD met to elect its leadership.",
-   "why_it_matters": "The AfD has seen a rise in popularity, causing concern among mainstream political parties, trade unions, and civil rights groups. The protests highlight deep political divisions in Germany over issues like immigration and national identity.",
-   "what_to_watch_next": "The AfD will complete its leadership elections this weekend. Analysts will watch how the party performs in regional elections in eastern Germany scheduled for September, where the AfD is polling strongly.",
+   "headline": "Clashes Erupt in Germany Over Far-Right Party Conference",
+   "what_happened": "Riot police clashed with thousands of left-wing protesters in the eastern German city of Erfurt as they tried to block the national conference of the far-right Alternative for Germany party. Over 20,000 demonstrators blocked roads and attempted to prevent delegates from entering the venue. Police deployed water cannons and made multiple arrests to clear the way for the conference, where the party was electing its leadership.",
+   "why_it_matters": "The Alternative for Germany, known as the AfD, has surged in popularity, particularly in eastern Germany, despite being classified as a suspected extremist group by German intelligence services. The massive scale of the protests highlights the deep and tense political polarization in Germany over immigration, national identity, and the rise of far-right politics.",
+   "what_to_watch_next": "The AfD is expected to finalize its national leadership team and set its policy platform for upcoming state elections in eastern Germany later this year.",
+   "vocab": [
+    {
+     "term": "Alternative for Germany",
+     "say": "AHL-ter-nah-teev for JUR-muh-nee",
+     "meaning": "A right-wing to far-right political party in Germany, commonly known as the AfD. It opposes immigration, the European Union, and current green energy policies."
+    },
+    {
+     "term": "Polarization",
+     "say": "poh-luh-rye-ZAY-shun",
+     "meaning": "The division of a society into two sharply contrasting groups with highly opposing opinions and beliefs. Germany is experiencing intense political polarization over the rise of the AfD."
+    }
+   ],
    "sources": [
     {
      "outlet": "Al Jazeera",
@@ -144,22 +239,6 @@
     {
      "outlet": "DW",
      "url": "https://www.dw.com/en/germany-news-afd-elects-leaders-amid-massive-protests/live-77830605?maca=en-rss-en-all-1573-rdf"
-    }
-   ]
-  },
-  {
-   "headline": "Tuareg Rebels Launch Coordinated Attacks in Northern Mali",
-   "what_happened": "Tuareg-led rebels and Islamist militants launched coordinated attacks on several towns and military bases in northern Mali. The rebels targeted areas where Malian government troops and Russian fighters are stationed, as well as a local prison. Mali's army later claimed that its forces successfully repelled the assaults and regained control.",
-   "why_it_matters": "Mali has faced instability since a military coup in 2021. The military government has increasingly relied on Russian private security forces to fight insurgencies after asking French and UN troops to leave. These fresh attacks show that the rebels still hold significant capability to challenge the state's authority.",
-   "what_to_watch_next": "Watch for updates on casualties and the security situation from Mali's military leadership. Regional security analysts are monitoring whether these clashes will displace more civilians toward neighboring countries.",
-   "sources": [
-    {
-     "outlet": "Al Jazeera",
-     "url": "https://www.aljazeera.com/news/2026/7/4/armed-fighters-attack-multiple-towns-across-mali?traffic_source=rss"
-    },
-    {
-     "outlet": "DW",
-     "url": "https://www.dw.com/en/mali-rebels-target-army-bases-prison-in-fresh-attacks/a-77833144?maca=en-rss-en-all-1573-rdf"
     }
    ]
   }
