@@ -419,7 +419,7 @@ def render_digest_page(day: dict, prefix: str, footer: str, audio: bool = False)
             for f in day["follow_ups"]
         )
         follow = f'<section class="follow-ups"><h3>Since you read</h3>{items}</section>'
-    listen_all = '<button id="listen-all">&#9654; Listen to today\'s digest</button>' if audio else ""
+    listen_all = '<button id="listen-all" class="listen" data-audio="audio/full.mp3">&#9654; Listen to today\'s digest</button>' if audio else ""
     body = f"""<header>
 <h1>Daily Digest</h1>
 <div class="date">{esc(day["date_label"])}</div>

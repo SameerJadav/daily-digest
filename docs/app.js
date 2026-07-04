@@ -11,19 +11,16 @@ player.controls = true;
 player.hidden = true;
 document.body.appendChild(player);
 
-let queue = [];
-function playQueue(list) {
-  queue = list.slice();
-  next();
-}
-function next() {
-  if (!queue.length) { player.hidden = true; return; }
-  player.src = queue.shift();
+// every button plays exactly one file (full.mp3 is the whole digest pre-concatenated),
+// so playback never needs a programmatic play() that mobile autoplay policies block
+function playFile(src) {
+  if (player.src.endsWith(src) && !player.paused) { player.pause(); return; }
+  player.src = src;
   player.hidden = false;
   player.play();
 }
-player.addEventListener("ended", next);
-player.addEventListener("error", next); // missing file: skip on
+player.addEventListener("ended", () => { player.hidden = true; });
+player.addEventListener("error", () => { player.hidden = true; });
 
 function slug(term) {
   // must match slug() in audio.py
@@ -52,14 +49,7 @@ document.addEventListener("click", (e) => {
     return;
   }
   const listen = e.target.closest(".listen");
-  if (listen) {
-    if (player.src.endsWith(listen.dataset.audio) && !player.paused) player.pause();
-    else playQueue([listen.dataset.audio]);
-    return;
-  }
-  if (e.target.closest("#listen-all")) {
-    playQueue([...document.querySelectorAll(".listen")].map((b) => b.dataset.audio));
-  }
+  if (listen) playFile(listen.dataset.audio);
 });
 
 // Select/long-press ANY word on the page -> a small button appears -> tap to hear it
