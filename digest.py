@@ -82,6 +82,24 @@ SCHEMA = {
                         "items": {"type": "integer"},
                         "description": "Article ids from the input list this story draws on.",
                     },
+                    "vocab": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "term": {"type": "string"},
+                                "say": {
+                                    "type": "string",
+                                    "description": "Simple phonetic respelling with the stressed syllable in capitals, e.g. sovereignty -> SOV-rin-tee.",
+                                },
+                                "meaning": {
+                                    "type": "string",
+                                    "description": "One or two plain sentences: what the term is, and what it refers to in this story.",
+                                },
+                            },
+                            "required": ["term", "say", "meaning"],
+                        },
+                    },
                 },
                 "required": [
                     "headline",
@@ -89,6 +107,7 @@ SCHEMA = {
                     "why_it_matters",
                     "what_to_watch_next",
                     "source_ids",
+                    "vocab",
                 ],
             },
         },
@@ -117,9 +136,18 @@ No jargon or acronym without an immediate plain-language explanation.
 told the BBC"). Never present a contested claim as settled fact.
 - Where outlets disagree or facts are still uncertain, say so explicitly.
 - Short sentences. Active voice. Concrete nouns. Write what things ARE, not just what they do.
+- Full context, always: never assume the reader knows the backstory. Include the one or two \
+sentences of background a first-time reader needs to genuinely understand the story, not just \
+be aware of it.
 - Each section 2-5 sentences. "What to watch next" names 1-3 specific future signposts \
 (a date, a decision, an event) so the reader knows when they'll learn more.
 - source_ids must be the ids of the actual input articles the story draws on. Never invent ids.
+- vocab: for each story, list 2-6 terms a bright 16-year-old might not know or might mispronounce: \
+jargon, technical or financial terms, institutions (what they are and what power they have), \
+places, treaties, titles. For each give "say", a simple phonetic respelling with the stressed \
+syllable in capitals (e.g. Ayatollah -> eye-uh-TOH-luh), and "meaning", one or two plain sentences \
+explaining the term as used in this story. The reader's goal is to understand and learn, \
+not just stay aware.
 
 Articles:
 {articles}
@@ -160,6 +188,7 @@ def generate_day(entries: list[dict]) -> dict:
                 "what_happened": s["what_happened"],
                 "why_it_matters": s["why_it_matters"],
                 "what_to_watch_next": s["what_to_watch_next"],
+                "vocab": s["vocab"],
                 "sources": sources,
             }
         )
@@ -177,7 +206,8 @@ PAGE = """<!DOCTYPE html>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{title}</title>
-<link rel="stylesheet" href="{css}">
+<link rel="stylesheet" href="{prefix}style.css">
+<script src="{prefix}app.js" defer></script>
 </head>
 <body>
 {body}
@@ -185,6 +215,20 @@ PAGE = """<!DOCTYPE html>
 </body>
 </html>
 """
+
+
+def render_vocab(vocab: list[dict]) -> str:
+    if not vocab:
+        return ""
+    esc = html.escape
+    items = "".join(
+        f"""<dt><span class="term">{esc(v["term"])}</span>
+<button class="say" data-word="{esc(v["term"], quote=True)}" aria-label="pronounce {esc(v["term"], quote=True)}">&#128264;</button>
+<span class="pron">{esc(v["say"])}</span></dt>
+<dd>{esc(v["meaning"])}</dd>"""
+        for v in vocab
+    )
+    return f'<aside class="vocab"><h3>Words to know</h3><dl>{items}</dl></aside>'
 
 
 def render_story(story: dict) -> str:
@@ -199,11 +243,12 @@ def render_story(story: dict) -> str:
 <h3>What happened</h3><p>{esc(story["what_happened"])}</p>
 <h3>Why it matters</h3><p>{esc(story["why_it_matters"])}</p>
 <h3>What to watch next</h3><p>{esc(story["what_to_watch_next"])}</p>
+{render_vocab(story.get("vocab", []))}
 <p class="sources">{sources}</p>
 </article>"""
 
 
-def render_digest_page(day: dict, css: str, footer: str) -> str:
+def render_digest_page(day: dict, prefix: str, footer: str) -> str:
     body = f"""<header>
 <h1>Daily Digest</h1>
 <div class="date">{html.escape(day["date_label"])}</div>
@@ -211,7 +256,7 @@ def render_digest_page(day: dict, css: str, footer: str) -> str:
 </header>
 {"".join(render_story(s) for s in day["stories"])}
 <p class="close">That's your digest. You're informed. Come back tomorrow.</p>"""
-    return PAGE.format(title=f"Digest — {html.escape(day['date_label'])}", css=css, body=body, footer=footer)
+    return PAGE.format(title=f"Digest — {html.escape(day['date_label'])}", prefix=prefix, body=body, footer=footer)
 
 
 def render_all() -> None:
@@ -226,10 +271,10 @@ def render_all() -> None:
 
     for day in days:
         (ARCHIVE / f"{day['date']}.html").write_text(
-            render_digest_page(day, "../style.css", '<a href="./">All digests</a> <a href="../">Latest</a>')
+            render_digest_page(day, "../", '<a href="./">All digests</a> <a href="../">Latest</a>')
         )
     (DOCS / "index.html").write_text(
-        render_digest_page(days[0], "style.css", '<a href="archive/">All past digests</a>')
+        render_digest_page(days[0], "", '<a href="archive/">All past digests</a>')
     )
 
     items = "".join(
@@ -240,7 +285,7 @@ def render_all() -> None:
     (ARCHIVE / "index.html").write_text(
         PAGE.format(
             title="Daily Digest — Archive",
-            css="../style.css",
+            prefix="../",
             body=f"<header><h1>All digests</h1></header>\n<ul class=\"archive-list\">{items}</ul>",
             footer='<a href="../">Latest digest</a>',
         )
