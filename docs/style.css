@@ -65,6 +65,29 @@ article p { margin: 0.2rem 0 0; }
   vertical-align: middle;
 }
 
+.listen, #listen-all {
+  border: 1px solid #d8d2c4;
+  border-radius: 999px;
+  background: #fff;
+  color: #1f1f1f;
+  font: inherit;
+  font-size: 0.875rem;
+  padding: 0.3rem 0.85rem;
+  cursor: pointer;
+}
+#listen-all { margin-top: 1rem; }
+article .listen { margin-bottom: 0.4rem; }
+
+#player {
+  position: fixed;
+  bottom: 0.75rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(92vw, 38rem);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
+  border-radius: 999px;
+}
+
 .follow-ups {
   margin-top: 2.5rem;
   border-top: 1px solid #e2ddd3;
