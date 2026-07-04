@@ -1,0 +1,8 @@
+# One feed per line: "Name URL" (name optional). Lines starting with # are ignored.
+BBC https://feeds.bbci.co.uk/news/world/rss.xml
+Al-Jazeera https://www.aljazeera.com/xml/rss/all.xml
+Guardian https://www.theguardian.com/world/rss
+NPR https://feeds.npr.org/1004/rss.xml
+DW https://rss.dw.com/rdf/rss-en-all
+The-Hindu https://www.thehindu.com/news/national/feeder/default.rss
+Indian-Express https://indianexpress.com/section/india/feed/
