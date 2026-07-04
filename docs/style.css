@@ -65,6 +65,20 @@ article p { margin: 0.2rem 0 0; }
   vertical-align: middle;
 }
 
+.follow-ups {
+  margin-top: 2.5rem;
+  border-top: 1px solid #e2ddd3;
+  padding-top: 1.4rem;
+}
+.follow-ups h3 {
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #8a7f6d;
+  margin: 0 0 0.6rem;
+}
+.follow-ups p { margin: 0.6rem 0 0; font-size: 0.975rem; }
+
 #speak-selection {
   position: absolute;
   z-index: 10;

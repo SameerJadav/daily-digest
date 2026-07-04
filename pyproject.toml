@@ -3,4 +3,8 @@ name = "daily-digest"
 version = "0.1.0"
 description = "Once-daily AI news digest from RSS feeds, published as a static page"
 requires-python = ">=3.12"
-dependencies = ["feedparser>=6.0", "google-genai>=1.0"]
+dependencies = [
+    "feedparser>=6.0",
+    "google-genai>=1.0",
+    "trafilatura>=2.1.0",
+]
