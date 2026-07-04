@@ -2,6 +2,7 @@ name: daily-digest
 on:
   schedule:
     - cron: "30 0 * * *" # 06:00 IST
+    - cron: "30 1 * * *" # 07:00 IST backup — no-op if the 06:00 run succeeded
   workflow_dispatch:
 
 permissions:
@@ -19,7 +20,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: astral-sh/setup-uv@v5
-      - run: uv run digest.py
+      - run: uv run digest.py ${{ github.event_name == 'schedule' && '--if-missing' || '' }}
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
       - run: |
