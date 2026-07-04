@@ -1,4 +1,13 @@
-"""Fetch RSS feeds, have Gemini write a once-daily digest, render static HTML into docs/."""
+"""Fetch RSS feeds, have Gemini write a once-daily digest, render static HTML into docs/.
+
+Usage:
+  uv run digest.py          # full pipeline: fetch -> Gemini -> save data/ -> render docs/
+  uv run digest.py render   # re-render every page from data/*.json (no AI, no API key)
+
+The digest content for each day lives in data/YYYY-MM-DD.json; HTML in docs/ is always
+derived from it. To change the UI, edit docs/style.css (takes effect on push) or the
+templates below (then run `digest.py render`).
+"""
 
 import calendar
 import html
@@ -9,14 +18,13 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 import feedparser
-from google import genai
-from google.genai import types
 
 ROOT = Path(__file__).parent
+DATA = ROOT / "data"
 DOCS = ROOT / "docs"
 ARCHIVE = DOCS / "archive"
 IST = timezone(timedelta(hours=5, minutes=30))
-MODEL = "gemini-2.5-flash"
+MODEL = "gemini-3.5-flash"
 
 
 def fetch_entries() -> list[dict]:
@@ -102,6 +110,10 @@ Selection rules:
 mainstream feeds under-cover.
 - Cover the event once, drawing on every outlet that reported it.
 
+You have a Google Search tool. Use it sparingly and only when it genuinely helps: when the \
+RSS summaries of a selected story are too thin to write from, leave a key fact unclear, or \
+contradict each other. Do not search for stories the summaries already cover well.
+
 Writing rules (non-negotiable):
 - Plain language. A bright 16-year-old with no background knowledge must be able to follow it. \
 No jargon or acronym without an immediate plain-language explanation.
@@ -118,7 +130,10 @@ Articles:
 """
 
 
-def generate_digest(entries: list[dict]) -> dict:
+def generate_day(entries: list[dict]) -> dict:
+    from google import genai
+    from google.genai import types
+
     articles = "\n".join(
         f"[{i}] ({e['outlet']}) {e['title']} — {e['summary']}" for i, e in enumerate(entries)
     )
@@ -127,42 +142,59 @@ def generate_digest(entries: list[dict]) -> dict:
         model=MODEL,
         contents=PROMPT.format(articles=articles),
         config=types.GenerateContentConfig(
+            tools=[types.Tool(google_search=types.GoogleSearch())],
             response_mime_type="application/json",
             response_schema=SCHEMA,
         ),
     )
-    return json.loads(resp.text)
+    digest = json.loads(resp.text)
+
+    today = datetime.now(IST)
+    stories = []
+    for s in digest["stories"]:
+        sources = [
+            {"outlet": entries[i]["outlet"], "url": entries[i]["url"]}
+            for i in dict.fromkeys(s["source_ids"])
+            if 0 <= i < len(entries)
+        ]
+        stories.append(
+            {
+                "headline": s["headline"],
+                "what_happened": s["what_happened"],
+                "why_it_matters": s["why_it_matters"],
+                "what_to_watch_next": s["what_to_watch_next"],
+                "sources": sources,
+            }
+        )
+    return {
+        "date": f"{today:%Y-%m-%d}",
+        "date_label": today.strftime("%A, %d %B %Y"),
+        "day_summary": digest["day_summary"],
+        "stories": stories,
+    }
 
 
-CSS = """\
-:root { color-scheme: light dark; }
-body { max-width: 42rem; margin: 0 auto; padding: 2rem 1.25rem 4rem;
-  font-family: Georgia, 'Times New Roman', serif; line-height: 1.65; font-size: 1.05rem;
-  background: #faf8f4; color: #1a1a1a; }
-@media (prefers-color-scheme: dark) { body { background: #191919; color: #ddd; } a { color: #9cc3e5; } }
-header { margin-bottom: 2.5rem; }
-h1 { font-size: 1.4rem; margin: 0 0 .25rem; }
-.date { color: #777; font-size: .95rem; }
-.day-summary { font-style: italic; margin-top: 1rem; }
-article { margin: 2.5rem 0; border-top: 1px solid #8884; padding-top: 1.5rem; }
-h2 { font-size: 1.2rem; margin: 0 0 1rem; }
-h3 { font-size: .8rem; text-transform: uppercase; letter-spacing: .08em; color: #877; margin: 1.2rem 0 .2rem; }
-article p { margin: .2rem 0 0; }
-.sources { font-size: .85rem; margin-top: 1rem; }
-.sources a { margin-right: .75rem; }
-.close { margin-top: 3.5rem; border-top: 1px solid #8884; padding-top: 2rem;
-  text-align: center; font-style: italic; }
-footer { margin-top: 3rem; font-size: .85rem; color: #777; }
-footer a { color: inherit; margin-right: .75rem; }
+PAGE = """<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{title}</title>
+<link rel="stylesheet" href="{css}">
+</head>
+<body>
+{body}
+<footer>{footer}</footer>
+</body>
+</html>
 """
 
 
-def render_story(story: dict, entries: list[dict]) -> str:
+def render_story(story: dict) -> str:
     esc = html.escape
     sources = "".join(
-        f'<a href="{esc(entries[i]["url"], quote=True)}">{esc(entries[i]["outlet"])}</a>'
-        for i in dict.fromkeys(story["source_ids"])
-        if 0 <= i < len(entries)
+        f'<a href="{esc(s["url"], quote=True)}" target="_blank" rel="noopener">{esc(s["outlet"])}</a>'
+        for s in story["sources"]
     )
     return f"""
 <article>
@@ -174,52 +206,65 @@ def render_story(story: dict, entries: list[dict]) -> str:
 </article>"""
 
 
-def render_page(digest: dict, entries: list[dict], date_label: str, footer: str) -> str:
-    stories = "".join(render_story(s, entries) for s in digest["stories"])
-    return f"""<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Digest — {html.escape(date_label)}</title>
-<style>{CSS}</style>
-</head>
-<body>
-<header>
+def render_digest_page(day: dict, css: str, footer: str) -> str:
+    body = f"""<header>
 <h1>Daily Digest</h1>
-<div class="date">{html.escape(date_label)}</div>
-<p class="day-summary">{html.escape(digest["day_summary"])}</p>
+<div class="date">{html.escape(day["date_label"])}</div>
+<p class="day-summary">{html.escape(day["day_summary"])}</p>
 </header>
-{stories}
-<p class="close">That's your digest. You're informed. Come back tomorrow.</p>
-<footer>{footer}</footer>
-</body>
-</html>
-"""
+{"".join(render_story(s) for s in day["stories"])}
+<p class="close">That's your digest. You're informed. Come back tomorrow.</p>"""
+    return PAGE.format(title=f"Digest — {html.escape(day['date_label'])}", css=css, body=body, footer=footer)
+
+
+def render_all() -> None:
+    days = sorted(
+        (json.loads(p.read_text()) for p in DATA.glob("*.json")),
+        key=lambda d: d["date"],
+        reverse=True,
+    )
+    if not days:
+        sys.exit("no data/*.json to render")
+    ARCHIVE.mkdir(parents=True, exist_ok=True)
+
+    for day in days:
+        (ARCHIVE / f"{day['date']}.html").write_text(
+            render_digest_page(day, "../style.css", '<a href="./">All digests</a> <a href="../">Latest</a>')
+        )
+    (DOCS / "index.html").write_text(
+        render_digest_page(days[0], "style.css", '<a href="archive/">All past digests</a>')
+    )
+
+    items = "".join(
+        f"""<li><a href="{day["date"]}.html">{html.escape(day["date_label"])}</a>
+<span class="summary">{html.escape(day["day_summary"])}</span></li>"""
+        for day in days
+    )
+    (ARCHIVE / "index.html").write_text(
+        PAGE.format(
+            title="Daily Digest — Archive",
+            css="../style.css",
+            body=f"<header><h1>All digests</h1></header>\n<ul class=\"archive-list\">{items}</ul>",
+            footer='<a href="../">Latest digest</a>',
+        )
+    )
+    print(f"rendered {len(days)} day(s) into docs/")
 
 
 def main() -> None:
+    if sys.argv[1:] == ["render"]:
+        render_all()
+        return
     entries = fetch_entries()
     print(f"{len(entries)} articles from the last 24h")
     if len(entries) < 10:
         sys.exit("too few articles — check feeds.txt")
-    digest = generate_digest(entries)
-    if not digest["stories"]:
+    day = generate_day(entries)
+    if not day["stories"]:
         sys.exit("model returned no stories")
-
-    today = datetime.now(IST)
-    date_label = today.strftime("%A, %d %B %Y")
-    ARCHIVE.mkdir(parents=True, exist_ok=True)
-
-    (ARCHIVE / f"{today:%Y-%m-%d}.html").write_text(
-        render_page(digest, entries, date_label, '<a href="../">← latest digest</a>')
-    )
-    past = sorted((p.stem for p in ARCHIVE.glob("*.html")), reverse=True)
-    archive_links = "".join(f'<a href="archive/{d}.html">{d}</a>' for d in past)
-    (DOCS / "index.html").write_text(
-        render_page(digest, entries, date_label, f"Archive: {archive_links}")
-    )
-    print(f"wrote docs/index.html and docs/archive/{today:%Y-%m-%d}.html")
+    DATA.mkdir(exist_ok=True)
+    (DATA / f"{day['date']}.json").write_text(json.dumps(day, ensure_ascii=False, indent=1))
+    render_all()
 
 
 if __name__ == "__main__":
