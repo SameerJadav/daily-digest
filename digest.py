@@ -31,6 +31,7 @@ MODEL = "gemini-3.5-flash"
 
 # ---------------------------------------------------------------- fetch
 
+
 def fetch_entries() -> list[dict]:
     cutoff = datetime.now(timezone.utc) - timedelta(hours=24)
     feeds = [
@@ -45,7 +46,11 @@ def fetch_entries() -> list[dict]:
         if feed.bozo and not feed.entries:
             print(f"warning: could not parse {url}", file=sys.stderr)
             continue
-        outlet = parts[0].replace("-", " ") if len(parts) > 1 else feed.feed.get("title", url)
+        outlet = (
+            parts[0].replace("-", " ")
+            if len(parts) > 1
+            else feed.feed.get("title", url)
+        )
         for e in feed.entries:
             parsed = e.get("published_parsed") or e.get("updated_parsed")
             if not parsed:
@@ -83,6 +88,7 @@ def fetch_fulltext(urls: list[str]) -> dict[str, str]:
 
 # ---------------------------------------------------------------- memory
 
+
 def load_memory(exclude_date: str) -> dict:
     """What the reader has already seen, from past days' data files."""
     days = [
@@ -96,7 +102,12 @@ def load_memory(exclude_date: str) -> dict:
         for s in d["stories"]
     ]
     vocab = sorted(
-        {v["term"] for d in days[-14:] for s in d["stories"] for v in s.get("vocab", [])}
+        {
+            v["term"]
+            for d in days[-14:]
+            for s in d["stories"]
+            for v in s.get("vocab", [])
+        }
     )
     return {"covered": covered, "vocab": vocab}
 
@@ -111,7 +122,10 @@ SELECT_SCHEMA = {
             "items": {
                 "type": "object",
                 "properties": {
-                    "topic": {"type": "string", "description": "A few words naming the story."},
+                    "topic": {
+                        "type": "string",
+                        "description": "A few words naming the story.",
+                    },
                     "source_ids": {
                         "type": "array",
                         "items": {"type": "integer"},
@@ -266,10 +280,15 @@ def _call(client, **kwargs):
     for attempt in range(4):
         try:
             return client.models.generate_content(**kwargs)
-        except Exception as e:  # ponytail: blanket retry; free-tier 429s and 5xx look the same to us
+        except (
+            Exception
+        ) as e:  # ponytail: blanket retry; free-tier 429s and 5xx look the same to us
             if attempt == 3:
                 raise
-            print(f"gemini attempt {attempt + 1} failed, retrying in 75s: {e}", file=sys.stderr)
+            print(
+                f"gemini attempt {attempt + 1} failed, retrying in 75s: {e}",
+                file=sys.stderr,
+            )
             time.sleep(75)
 
 
@@ -281,7 +300,8 @@ def generate_day(entries: list[dict], memory: dict, today: datetime) -> dict:
     covered = "\n".join(memory["covered"]) or "(nothing yet — this is the first digest)"
 
     articles = "\n".join(
-        f"[{i}] ({e['outlet']}) {e['title']} — {e['summary']}" for i, e in enumerate(entries)
+        f"[{i}] ({e['outlet']}) {e['title']} — {e['summary']}"
+        for i, e in enumerate(entries)
     )
     selection = json.loads(
         _call(
@@ -295,13 +315,18 @@ def generate_day(entries: list[dict], memory: dict, today: datetime) -> dict:
     )
 
     chosen = [
-        (s["topic"], [i for i in dict.fromkeys(s["source_ids"]) if 0 <= i < len(entries)][:4])
+        (
+            s["topic"],
+            [i for i in dict.fromkeys(s["source_ids"]) if 0 <= i < len(entries)][:4],
+        )
         for s in selection["stories"]
     ]
     texts = fetch_fulltext([entries[i]["url"] for _, ids in chosen for i in ids])
-    print(f"selected {len(chosen)} stories; full text for "
-          f"{sum(1 for _, ids in chosen for i in ids if entries[i]['url'] in texts)}"
-          f"/{sum(len(ids) for _, ids in chosen)} articles")
+    print(
+        f"selected {len(chosen)} stories; full text for "
+        f"{sum(1 for _, ids in chosen for i in ids if entries[i]['url'] in texts)}"
+        f"/{sum(len(ids) for _, ids in chosen)} articles"
+    )
 
     blocks = []
     for topic, ids in chosen:
@@ -383,7 +408,7 @@ def render_vocab(vocab: list[dict]) -> str:
     esc = html.escape
     items = "".join(
         f"""<dt><span class="term">{esc(v["term"])}</span>
-<button class="say" data-word="{esc(v["term"], quote=True)}" aria-label="pronounce {esc(v["term"], quote=True)}">&#128264;</button>
+<button class="say" data-word="{esc(v["term"], quote=True)}" aria-label="pronounce {esc(v["term"], quote=True)}"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z"/><path d="M16 9a5 5 0 0 1 0 6"/><path d="M19.364 18.364a9 9 0 0 0 0-12.728"/></svg></button>
 <span class="pron">{esc(v["say"])}</span></dt>
 <dd>{esc(v["meaning"])}</dd>"""
         for v in vocab
@@ -397,7 +422,15 @@ def render_story(story: dict, i: int, audio: bool) -> str:
         f'<a href="{esc(s["url"], quote=True)}" target="_blank" rel="noopener">{esc(s["outlet"])}</a>'
         for s in story["sources"]
     )
-    listen = f'<button class="listen" data-audio="audio/s{i}.mp3">&#9654; Listen</button>' if audio else ""
+    listen = (
+        (
+            f'<button class="listen" data-audio="audio/s{i}.mp3">'
+            f'<svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">'
+            f'<path d="M5 5a2 2 0 0 1 3.008-1.728l11.997 6.998a2 2 0 0 1 .003 3.458l-12 7A2 2 0 0 1 5 19z"/></svg> Listen</button>'
+        )
+        if audio
+        else ""
+    )
     return f"""
 <article>
 <h2>{esc(story["headline"])}</h2>
@@ -415,11 +448,19 @@ def render_digest_page(day: dict, prefix: str, footer: str, audio: bool = False)
     follow = ""
     if day.get("follow_ups"):
         items = "".join(
-            f'<p><strong>{esc(f["about"])}</strong> — {esc(f["update"])}</p>'
+            f"<p><strong>{esc(f['about'])}</strong> — {esc(f['update'])}</p>"
             for f in day["follow_ups"]
         )
         follow = f'<section class="follow-ups"><h3>Since you read</h3>{items}</section>'
-    listen_all = '<button id="listen-all" class="listen" data-audio="audio/full.mp3">&#9654; Listen to today\'s digest</button>' if audio else ""
+    listen_all = (
+        (
+            '<button id="listen-all" class="listen" data-audio="audio/full.mp3">'
+            '<svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">'
+            '<path d="M5 5a2 2 0 0 1 3.008-1.728l11.997 6.998a2 2 0 0 1 .003 3.458l-12 7A2 2 0 0 1 5 19z"/></svg> Listen to today\'s digest</button>'
+        )
+        if audio
+        else ""
+    )
     body = f"""<header>
 <h1>Daily Digest</h1>
 <div class="date">{esc(day["date_label"])}</div>
@@ -429,7 +470,12 @@ def render_digest_page(day: dict, prefix: str, footer: str, audio: bool = False)
 {"".join(render_story(s, i, audio) for i, s in enumerate(day["stories"]))}
 {follow}
 <p class="close">That's your digest. You're informed. Come back tomorrow.</p>"""
-    return PAGE.format(title=f"Digest — {esc(day['date_label'])}", prefix=prefix, body=body, footer=footer)
+    return PAGE.format(
+        title=f"Digest — {esc(day['date_label'])}",
+        prefix=prefix,
+        body=body,
+        footer=footer,
+    )
 
 
 def render_all() -> None:
@@ -445,10 +491,14 @@ def render_all() -> None:
 
     for day in days:
         (ARCHIVE / f"{day['date']}.html").write_text(
-            render_digest_page(day, "../", '<a href="./">All digests</a> <a href="../">Latest</a>')
+            render_digest_page(
+                day, "../", '<a href="./">All digests</a> <a href="../">Latest</a>'
+            )
         )
     (DOCS / "index.html").write_text(
-        render_digest_page(days[0], "", '<a href="archive/">All past digests</a>', audio=True)
+        render_digest_page(
+            days[0], "", '<a href="archive/">All past digests</a>', audio=True
+        )
     )
 
     items = "".join(
@@ -460,7 +510,7 @@ def render_all() -> None:
         PAGE.format(
             title="Daily Digest — Archive",
             prefix="../",
-            body=f"<header><h1>All digests</h1></header>\n<ul class=\"archive-list\">{items}</ul>",
+            body=f'<header><h1>All digests</h1></header>\n<ul class="archive-list">{items}</ul>',
             footer='<a href="../">Latest digest</a>',
         )
     )
@@ -484,7 +534,9 @@ def main() -> None:
     if not day["stories"]:
         sys.exit("model returned no stories")
     DATA.mkdir(exist_ok=True)
-    (DATA / f"{day['date']}.json").write_text(json.dumps(day, ensure_ascii=False, indent=1))
+    (DATA / f"{day['date']}.json").write_text(
+        json.dumps(day, ensure_ascii=False, indent=1)
+    )
     render_all()
 
 
