@@ -43,6 +43,42 @@ article p { margin: 0.2rem 0 0; }
   color: #3d3a35;
 }
 
+.vocab {
+  margin-top: 1.4rem;
+  padding: 0.9rem 1.1rem 1.1rem;
+  background: #f3efe6;
+  border-radius: 0.5rem;
+}
+.vocab h3 { margin-top: 0; }
+.vocab dl { margin: 0; }
+.vocab dt { margin-top: 0.7rem; }
+.vocab dt:first-child { margin-top: 0; }
+.vocab .term { font-weight: 650; }
+.vocab .pron { color: #6f6a62; font-size: 0.9rem; }
+.vocab dd { margin: 0.1rem 0 0; font-size: 0.95rem; }
+.say {
+  border: 0;
+  background: none;
+  padding: 0 0.15rem;
+  font-size: 1rem;
+  cursor: pointer;
+  vertical-align: middle;
+}
+
+#speak-selection {
+  position: absolute;
+  z-index: 10;
+  border: 1px solid #d8d2c4;
+  border-radius: 999px;
+  background: #fff;
+  color: #1f1f1f;
+  font: inherit;
+  font-size: 0.875rem;
+  padding: 0.35rem 0.8rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+  cursor: pointer;
+}
+
 .archive-list { list-style: none; padding: 0; }
 .archive-list li { margin: 1.4rem 0; }
 .archive-list a { font-weight: 600; }

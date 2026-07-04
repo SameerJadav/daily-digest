@@ -1,15 +1,20 @@
 name: render
-# Re-renders docs/ from data/*.json without calling the AI.
-# Runs when digest.py (templates) changes, or manually. CSS-only edits
-# need nothing at all: docs/style.css is served as-is.
+# Re-renders docs/ from data/*.json (no AI) and deploys the site.
+# Runs on template (digest.py), stylesheet, script, or data edits — or manually.
 on:
   push:
     branches: [main]
-    paths: [digest.py]
+    paths: [digest.py, docs/**, data/**]
   workflow_dispatch:
 
 permissions:
   contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
 
 jobs:
   render:
@@ -24,3 +29,15 @@ jobs:
           git add docs
           git commit -m "re-render" || exit 0
           git push
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: docs
+  deploy:
+    needs: render
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
