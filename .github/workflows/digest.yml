@@ -23,6 +23,12 @@ jobs:
       - run: uv run digest.py ${{ github.event_name == 'schedule' && '--if-missing' || '' }}
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+      - uses: actions/cache@v4
+        with:
+          path: ~/.cache/huggingface
+          key: kokoro-82m
+      - run: sudo apt-get install -y -q espeak-ng ffmpeg
+      - run: uv run audio.py || echo "::warning::audio generation failed, publishing without audio"
       - run: |
           git config user.name "digest-bot"
           git config user.email "actions@users.noreply.github.com"
