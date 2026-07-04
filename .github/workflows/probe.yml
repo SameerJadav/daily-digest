@@ -1,0 +1,44 @@
+name: probe # temporary: find which Gemini models this project's free tier accepts
+on: workflow_dispatch
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+      - env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: |
+          uv run python - <<'EOF'
+          from google import genai
+          from google.genai import types
+
+          client = genai.Client()
+          candidates = [
+              "gemini-3.5-flash",
+              "gemini-3-flash-preview",
+              "gemini-3-flash",
+              "gemini-3.1-flash-lite",
+              "gemini-2.5-flash",
+          ]
+          for m in candidates:
+              for tools, label in [(None, "plain"), ([types.Tool(google_search=types.GoogleSearch())], "search+schema")]:
+                  try:
+                      r = client.models.generate_content(
+                          model=m,
+                          contents="Reply with the single word: ok",
+                          config=types.GenerateContentConfig(
+                              tools=tools,
+                              response_mime_type="application/json",
+                              response_schema={"type": "object", "properties": {"word": {"type": "string"}}, "required": ["word"]},
+                          ),
+                      )
+                      print(f"OK    {m} [{label}] -> {r.text[:40]!r}")
+                  except Exception as e:
+                      print(f"FAIL  {m} [{label}] -> {str(e)[:160]}")
+          print("--- models visible to this key with generateContent:")
+          for m in client.models.list():
+              if "generateContent" in (m.supported_actions or []):
+                  print(" ", m.name)
+          EOF
