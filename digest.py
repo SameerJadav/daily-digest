@@ -110,10 +110,6 @@ Selection rules:
 mainstream feeds under-cover.
 - Cover the event once, drawing on every outlet that reported it.
 
-You have a Google Search tool. Use it sparingly and only when it genuinely helps: when the \
-RSS summaries of a selected story are too thin to write from, leave a key fact unclear, or \
-contradict each other. Do not search for stories the summaries already cover well.
-
 Writing rules (non-negotiable):
 - Plain language. A bright 16-year-old with no background knowledge must be able to follow it. \
 No jargon or acronym without an immediate plain-language explanation.
@@ -142,7 +138,8 @@ def generate_day(entries: list[dict]) -> dict:
         model=MODEL,
         contents=PROMPT.format(articles=articles),
         config=types.GenerateContentConfig(
-            tools=[types.Tool(google_search=types.GoogleSearch())],
+            # ponytail: no google_search tool — grounding has zero quota on the
+            # keyless free tier (429s); re-add if billing is ever enabled
             response_mime_type="application/json",
             response_schema=SCHEMA,
         ),

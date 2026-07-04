@@ -10,8 +10,7 @@ Live at <https://sameerjadav.github.io/daily-digest/>.
 ## How it works
 
 - `feeds.txt` — one feed per line (`Name URL`). Edit this to add or remove sources.
-- `digest.py` — fetch → Gemini (`gemini-3.5-flash`, free tier, with Google Search grounding
-  the model uses only when RSS summaries are too thin) → `data/YYYY-MM-DD.json` → HTML.
+- `digest.py` — fetch → Gemini (`gemini-3.5-flash`, free tier) → `data/YYYY-MM-DD.json` → HTML.
 - `data/` — the digest content, one JSON per day. HTML is always derived from these.
 - `docs/` — GitHub Pages root. `index.html` is today; `docs/archive/` has every day + an index.
 - `.github/workflows/digest.yml` — full pipeline daily at 00:30 UTC (06:00 IST).
