@@ -14,8 +14,10 @@
   --playing-fg: #fff;
 }
 
+/* dark palette: applied by OS preference, or forced by the theme toggle
+   (data-theme survives a manual choice even when it disagrees with the OS) */
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not([data-theme]) {
     --bg: #1c1a17;
     --fg: #ece7de;
     --link: #85b8ec;
@@ -28,6 +30,21 @@
     --playing-bg: #ece7de;
     --playing-fg: #1c1a17;
   }
+}
+:root[data-theme="light"] { color-scheme: light; }
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #1c1a17;
+  --fg: #ece7de;
+  --link: #85b8ec;
+  --muted: #a89f90;
+  --ink-soft: #cfc8ba;
+  --border: #3a352c;
+  --border-strong: #4a4438;
+  --panel: #2a2620;
+  --btn-bg: #2a2620;
+  --playing-bg: #ece7de;
+  --playing-fg: #1c1a17;
 }
 
 body {
@@ -50,8 +67,26 @@ button:focus-visible {
   outline-offset: 2px;
 }
 
-header { margin-bottom: 2.25rem; }
+header { position: relative; margin-bottom: 2.25rem; padding-right: 3rem; }
 h1 { font-size: 1.45rem; margin: 0 0 0.25rem; }
+
+#theme-toggle {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border: 1px solid var(--border-strong);
+  border-radius: 999px;
+  background: var(--btn-bg);
+  color: var(--fg);
+  font-size: 1.05rem;
+  line-height: 1;
+  cursor: pointer;
+}
 .date { color: var(--muted); font-size: 0.95rem; }
 .day-summary { font-style: italic; margin-top: 1rem; color: var(--ink-soft); }
 
@@ -104,7 +139,7 @@ article p { margin: 0.2rem 0 0; }
   vertical-align: middle;
 }
 
-.listen, #listen-all {
+.listen {
   border: 1px solid var(--border-strong);
   border-radius: 999px;
   background: var(--btn-bg);
