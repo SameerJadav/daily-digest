@@ -22,8 +22,9 @@ let activeBtn = null;
 function setGlyph(btn, playing) {
   if (!btn) return;
   btn.classList.toggle("playing", playing);
-  const label = btn.id === "listen-all" ? " Listen to this digest" : " Listen";
-  btn.innerHTML = (playing ? "&#10074;&#10074;" : "&#9654;") + label;
+  btn.setAttribute("aria-pressed", playing ? "true" : "false");
+  const glyph = btn.querySelector(".glyph");
+  if (glyph) glyph.textContent = playing ? "❘❘" : "▶";
 }
 
 function closePlayer() {
@@ -42,24 +43,52 @@ function slug(term) {
   return term.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
 }
 
+let sayAudio = null; // the in-flight vocab clip, if any, so only one thing ever plays
+
+// stop anything that isn't the main player: a vocab clip or speechSynthesis
+function stopExtras() {
+  if (sayAudio) { sayAudio.pause(); sayAudio = null; }
+  speechSynthesis.cancel();
+}
+
+function stopAll() {
+  player.pause();
+  stopExtras();
+}
+
 function speakFallback(text) {
   // browser TTS, prefer a female English voice
-  speechSynthesis.cancel();
-  const u = new SpeechSynthesisUtterance(text);
-  const en = speechSynthesis.getVoices().filter((v) => v.lang.startsWith("en"));
-  u.voice =
-    en.find((v) => /female|woman|zira|aria|jenny|neerja|heera|veena|libby|sonia/i.test(v.name)) ||
-    en[0] || null;
-  u.lang = "en-IN";
-  u.rate = 0.85;
-  speechSynthesis.speak(u);
+  stopAll();
+  const speak = () => {
+    const u = new SpeechSynthesisUtterance(text);
+    const en = speechSynthesis.getVoices().filter((v) => v.lang.startsWith("en"));
+    u.voice =
+      en.find((v) => /female|woman|zira|aria|jenny|neerja|heera|veena|libby|sonia/i.test(v.name)) ||
+      en[0] || null;
+    u.lang = "en-IN";
+    u.rate = 0.85;
+    speechSynthesis.speak(u);
+  };
+  if (speechSynthesis.getVoices().length === 0) {
+    speechSynthesis.addEventListener("voiceschanged", speak, { once: true });
+  } else {
+    speak();
+  }
 }
 
 function sayWord(word) {
   if (pageDate) {
+    stopAll();
     const a = new Audio(`${prefix}audio/${pageDate}/v/${slug(word)}.mp3`);
-    a.onerror = () => speakFallback(word);
-    a.play().catch(() => speakFallback(word));
+    sayAudio = a;
+    let fellBack = false;
+    const fallback = () => {
+      if (fellBack) return;
+      fellBack = true;
+      speakFallback(word);
+    };
+    a.addEventListener("error", fallback, { once: true });
+    a.play().catch(fallback);
   } else {
     speakFallback(word);
   }
@@ -73,15 +102,16 @@ document.addEventListener("click", (e) => {
   if (!btn || !btn.dataset.audio) return;
 
   if (btn === activeBtn) {           // same button: plain toggle
-    if (player.paused) player.play();
+    if (player.paused) { stopExtras(); player.play().catch(() => {}); }
     else player.pause();
     return;
   }
-  setGlyph(activeBtn, false);        // switch to another story/digest
+  stopAll();                         // switch to another story/digest
+  setGlyph(activeBtn, false);
   activeBtn = btn;
   player.src = btn.dataset.audio;
   player.hidden = false;
-  player.play();
+  player.play().catch(() => {});
 });
 
 // ---- select/long-press ANY word -> small button -> hear it --------------
