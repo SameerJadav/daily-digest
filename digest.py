@@ -418,7 +418,7 @@ PAGE = """<!DOCTYPE html>
 <link rel="apple-touch-icon" href="{prefix}icon-192.png">
 <script src="{prefix}app.js" defer></script>
 </head>
-<body data-prefix="{prefix}">
+<body data-prefix="{prefix}" data-date="{date}">
 {body}
 <footer>{footer}</footer>
 </body>
@@ -440,16 +440,20 @@ def render_vocab(vocab: list[dict]) -> str:
     return f'<aside class="vocab"><h3>Words to know</h3><dl>{items}</dl></aside>'
 
 
-def render_story(story: dict) -> str:
+def render_story(story: dict, i: int, prefix: str, date: str, audio: bool) -> str:
     esc = html.escape
     sources = "".join(
         f'<a href="{esc(s["url"], quote=True)}" target="_blank" rel="noopener">{esc(s["outlet"])}</a>'
         for s in story["sources"]
     )
+    listen = (
+        f'<button class="listen" data-audio="{prefix}audio/{date}/s{i}.mp3">&#9654; Listen</button>'
+        if audio else ""
+    )
     return f"""
 <article>
 <h2>{esc(story["headline"])}</h2>
-<button class="listen">&#9654; Listen</button>
+{listen}
 <h3>What happened</h3><p>{esc(story["what_happened"])}</p>
 <h3>Why it matters</h3><p>{esc(story["why_it_matters"])}</p>
 <h3>What to watch next</h3><p>{esc(story["what_to_watch_next"])}</p>
@@ -460,6 +464,8 @@ def render_story(story: dict) -> str:
 
 def render_digest_page(day: dict, prefix: str, footer: str) -> str:
     esc = html.escape
+    date = day["date"]
+    audio = (DOCS / "audio" / date / "full.mp3").exists()
     follow = ""
     if day.get("follow_ups"):
         items = "".join(
@@ -467,16 +473,20 @@ def render_digest_page(day: dict, prefix: str, footer: str) -> str:
             for f in day["follow_ups"]
         )
         follow = f'<section class="follow-ups"><h3>Since you read</h3>{items}</section>'
+    listen_all = (
+        f'<button id="listen-all" class="listen" data-audio="{prefix}audio/{date}/full.mp3">&#9654; Listen to this digest</button>'
+        if audio else ""
+    )
     body = f"""<header>
 <h1>Daily Digest</h1>
 <div class="date">{esc(day["date_label"])}</div>
 <p class="day-summary">{esc(day["day_summary"])}</p>
-<button id="listen-all" class="listen">&#9654; Listen to this digest</button>
+{listen_all}
 </header>
-{"".join(render_story(s) for s in day["stories"])}
+{"".join(render_story(s, i, prefix, date, audio) for i, s in enumerate(day["stories"]))}
 {follow}
 <p class="close">That's your digest. You're informed. Come back tomorrow.</p>"""
-    return PAGE.format(title=f"Digest — {esc(day['date_label'])}", prefix=prefix, body=body, footer=footer)
+    return PAGE.format(title=f"Digest — {esc(day['date_label'])}", prefix=prefix, date=date, body=body, footer=footer)
 
 
 def render_all() -> None:
@@ -507,6 +517,7 @@ def render_all() -> None:
         PAGE.format(
             title="Daily Digest — Archive",
             prefix="../",
+            date="",
             body=f"<header><h1>All digests</h1></header>\n<ul class=\"archive-list\">{items}</ul>",
             footer='<a href="../">Latest digest</a>',
         )
