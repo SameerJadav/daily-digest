@@ -413,8 +413,9 @@ PAGE = """<!DOCTYPE html>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="{description}">
-<meta name="theme-color" content="#faf8f4" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#1c1a17" media="(prefers-color-scheme: dark)">
+<meta id="theme-color-light" name="theme-color" content="#faf8f4" media="(prefers-color-scheme: light)">
+<meta id="theme-color-dark" name="theme-color" content="#1c1a17" media="(prefers-color-scheme: dark)">
+<script>try{{var t=localStorage.getItem("theme");if(t)document.documentElement.dataset.theme=t}}catch(e){{}}</script>
 <link rel="canonical" href="{canonical}">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Daily Digest">

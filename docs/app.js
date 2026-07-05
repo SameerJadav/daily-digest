@@ -140,3 +140,44 @@ document.addEventListener("selectionchange", () => {
   selBtn.style.left = Math.max(8, window.scrollX + rect.left) + "px";
   selBtn.hidden = false;
 });
+
+// ---- theme toggle: forces light/dark regardless of OS preference --------
+// (the inline script in <head> already applied any saved choice pre-paint)
+const prefersDark = window.matchMedia("(prefers-color-scheme: dark)");
+
+function effectiveTheme() {
+  return document.documentElement.dataset.theme || (prefersDark.matches ? "dark" : "light");
+}
+
+function syncThemeColorMeta() {
+  const forced = document.documentElement.dataset.theme;
+  const light = document.getElementById("theme-color-light");
+  const dark = document.getElementById("theme-color-dark");
+  if (!light || !dark) return;
+  light.content = forced ? (forced === "dark" ? "#1c1a17" : "#faf8f4") : "#faf8f4";
+  dark.content = forced ? (forced === "dark" ? "#1c1a17" : "#faf8f4") : "#1c1a17";
+}
+
+const themeBtn = document.createElement("button");
+themeBtn.id = "theme-toggle";
+
+function syncThemeButton() {
+  const dark = effectiveTheme() === "dark";
+  themeBtn.textContent = dark ? "☀️" : "\u{1F319}";
+  themeBtn.setAttribute("aria-label", dark ? "switch to light theme" : "switch to dark theme");
+}
+
+themeBtn.addEventListener("click", () => {
+  document.documentElement.dataset.theme = effectiveTheme() === "dark" ? "light" : "dark";
+  localStorage.setItem("theme", document.documentElement.dataset.theme);
+  syncThemeButton();
+  syncThemeColorMeta();
+});
+
+prefersDark.addEventListener("change", () => {
+  if (!document.documentElement.dataset.theme) syncThemeButton();
+});
+
+syncThemeButton();
+syncThemeColorMeta();
+document.querySelector("header")?.appendChild(themeBtn);
