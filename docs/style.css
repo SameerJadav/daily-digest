@@ -78,14 +78,35 @@ article p { margin: 0.2rem 0 0; }
 #listen-all { margin-top: 1rem; }
 article .listen { margin-bottom: 0.4rem; }
 
-#player {
+#tts-bar {
   position: fixed;
   bottom: 0.75rem;
   left: 50%;
   transform: translateX(-50%);
   width: min(92vw, 38rem);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.5rem 0.9rem;
+  background: #fff;
+  border: 1px solid #d8d2c4;
   border-radius: 999px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
+}
+#tts-bar button {
+  border: 0;
+  background: none;
+  font: inherit;
+  cursor: pointer;
+  padding: 0.1rem 0.3rem;
+}
+#tts-status {
+  flex: 1;
+  font-size: 0.875rem;
+  color: #3d3a35;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .follow-ups {
