@@ -1,162 +1,45 @@
-// Listening UI. All Kokoro synthesis runs in tts-worker.js (a separate thread),
-// so this page never blocks: the main thread only schedules finished audio
-// chunks through WebAudio and updates buttons. Voice: af_heart (female).
-// Model (~90 MB) downloads on first listen, then lives in the browser cache.
-// Browser speechSynthesis is only the fallback if the worker/model fails.
+// Playback of pre-generated Kokoro MP3s (female voice af_heart) through the
+// browser's NATIVE audio element — no custom player, nothing to maintain.
+// The player appears only while something is playing and hides itself after.
+// speechSynthesis is only the fallback for vocab on days whose audio has been
+// pruned (audio is kept for the last 7 days) and for the select-any-word button.
 // Edit freely — the AI pipeline never touches this file.
 
 const prefix = document.body.dataset.prefix || "";
+const pageDate = document.body.dataset.date || "";
 
-// ---- bottom bar (hidden until a listen action starts) ------------------
-const bar = document.createElement("div");
-bar.id = "tts-bar";
-bar.hidden = true;
-bar.innerHTML =
-  '<button id="tts-toggle" aria-label="pause or resume">&#10074;&#10074;</button>' +
-  '<span id="tts-status"></span>' +
-  '<button id="tts-stop" aria-label="stop">&#10005;</button>';
-document.body.appendChild(bar);
-const statusEl = bar.querySelector("#tts-status");
-const toggleEl = bar.querySelector("#tts-toggle");
+const player = document.createElement("audio");
+player.id = "player";
+player.controls = true;
+player.hidden = true;
+player.preload = "none";
+document.body.appendChild(player);
 
-// ---- state --------------------------------------------------------------
-let worker = null;
-let workerBroken = false;
-let reqId = 0;
-let ctx = null;
-let playhead = 0;
-let liveSources = [];
-let generationDone = false;
 let activeBtn = null;
-let activeText = "";
 
-function ensureWorker() {
-  if (worker || workerBroken) return worker;
-  try {
-    worker = new Worker(prefix + "tts-worker.js", { type: "module" });
-  } catch {
-    workerBroken = true;
-    return null;
-  }
-  worker.onerror = () => {
-    workerBroken = true;
-    fallbackNow();
-  };
-  worker.onmessage = (e) => {
-    const m = e.data;
-    if (m.id !== reqId) return; // stale request
-    if (m.type === "downloading") statusEl.textContent = "Downloading voice (first time only, ~90 MB)…";
-    else if (m.type === "start") statusEl.textContent = labelText;
-    else if (m.type === "chunk") schedule(m.audio, m.sr);
-    else if (m.type === "done") {
-      generationDone = true;
-      if (!liveSources.length) finish();
-    } else if (m.type === "error") fallbackNow();
-  };
-  return worker;
-}
-
-let labelText = "";
-
-function schedule(audio, sr) {
-  const buf = ctx.createBuffer(1, audio.length, sr);
-  buf.copyToChannel(audio, 0);
-  const src = ctx.createBufferSource();
-  src.buffer = buf;
-  src.connect(ctx.destination);
-  const at = Math.max(playhead, ctx.currentTime + 0.05);
-  src.start(at);
-  playhead = at + buf.duration;
-  liveSources.push(src);
-  src.onended = () => {
-    liveSources = liveSources.filter((s) => s !== src);
-    if (!liveSources.length && generationDone) finish();
-  };
-}
-
-function setBtn(btn, playing) {
-  if (!btn || !btn.classList.contains("listen")) return;
+// one glyph function for BOTH the per-story button and the whole-digest button,
+// driven by the player's own events so native controls stay in sync too
+function setGlyph(btn, playing) {
+  if (!btn) return;
   btn.classList.toggle("playing", playing);
-  const base = btn.id === "listen-all" ? " Listen to this digest" : " Listen";
-  btn.innerHTML = (playing ? "&#10074;&#10074;" : "&#9654;") + base;
+  const label = btn.id === "listen-all" ? " Listen to this digest" : " Listen";
+  btn.innerHTML = (playing ? "&#10074;&#10074;" : "&#9654;") + label;
 }
 
-function stopPlayback() {
-  reqId += 1; // cancels in-flight worker generation and stale messages
-  liveSources.forEach((s) => { try { s.stop(); } catch {} });
-  liveSources = [];
-  generationDone = false;
-  if (ctx && ctx.state === "suspended") ctx.resume();
-  toggleEl.innerHTML = "&#10074;&#10074;";
-  setBtn(activeBtn, false);
+function closePlayer() {
+  setGlyph(activeBtn, false);
   activeBtn = null;
+  player.hidden = true;
 }
 
-function finish() {
-  stopPlayback();
-  bar.hidden = true;
-}
+player.addEventListener("ended", closePlayer);
+player.addEventListener("error", closePlayer);
+player.addEventListener("pause", () => setGlyph(activeBtn, false));
+player.addEventListener("play", () => setGlyph(activeBtn, true));
 
-function fallbackNow() {
-  const text = activeText;
-  finish();
-  if (text) speakFallback(text);
-}
-
-function read(text, label, btn) {
-  ctx ??= new (window.AudioContext || window.webkitAudioContext)();
-  ctx.resume();
-  stopPlayback();
-  if (workerBroken || !ensureWorker()) { speakFallback(text); return; }
-  activeBtn = btn || null;
-  activeText = text;
-  labelText = label;
-  setBtn(activeBtn, true);
-  statusEl.textContent = "Preparing voice…";
-  bar.hidden = false;
-  playhead = 0;
-  worker.postMessage({ id: reqId, text });
-}
-
-function togglePause() {
-  if (!ctx) return;
-  if (ctx.state === "running") {
-    ctx.suspend();
-    toggleEl.innerHTML = "&#9654;";
-    setBtn(activeBtn, false);
-  } else {
-    ctx.resume();
-    toggleEl.innerHTML = "&#10074;&#10074;";
-    setBtn(activeBtn, true);
-  }
-}
-
-toggleEl.addEventListener("click", togglePause);
-bar.querySelector("#tts-stop").addEventListener("click", finish);
-
-// ---- what to read -------------------------------------------------------
-function storyText(article) {
-  const parts = [article.querySelector("h2").textContent + "."];
-  article.querySelectorAll("h3").forEach((h) => {
-    if (h.closest(".vocab")) return;
-    const p = h.nextElementSibling;
-    if (p && p.tagName === "P") parts.push(h.textContent + ". " + p.textContent);
-  });
-  return parts.join(" ");
-}
-
-function digestText() {
-  const parts = [];
-  const date = document.querySelector(".date");
-  const summary = document.querySelector(".day-summary");
-  parts.push("Daily Digest, " + (date ? date.textContent : "") + ".");
-  if (summary) parts.push(summary.textContent);
-  document.querySelectorAll("article").forEach((a, i) => {
-    parts.push(`Story ${i + 1}. ` + storyText(a));
-  });
-  const follow = document.querySelector(".follow-ups");
-  if (follow) parts.push("Since you read. " + follow.textContent);
-  return parts.join("\n");
+function slug(term) {
+  // must match slug() in audio.py
+  return term.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
 }
 
 function speakFallback(text) {
@@ -172,21 +55,33 @@ function speakFallback(text) {
   speechSynthesis.speak(u);
 }
 
-// ---- clicks -------------------------------------------------------------
+function sayWord(word) {
+  if (pageDate) {
+    const a = new Audio(`${prefix}audio/${pageDate}/v/${slug(word)}.mp3`);
+    a.onerror = () => speakFallback(word);
+    a.play().catch(() => speakFallback(word));
+  } else {
+    speakFallback(word);
+  }
+}
+
 document.addEventListener("click", (e) => {
   const say = e.target.closest(".say");
-  if (say) { read(say.dataset.word, say.dataset.word, null); return; }
+  if (say) { sayWord(say.dataset.word); return; }
 
-  const listen = e.target.closest(".listen");
-  if (!listen) return;
+  const btn = e.target.closest(".listen");
+  if (!btn || !btn.dataset.audio) return;
 
-  if (listen === activeBtn) { togglePause(); return; } // same button = pause/resume
-
-  if (listen.id === "listen-all") read(digestText(), "Reading the digest…", listen);
-  else {
-    const article = listen.closest("article");
-    if (article) read(storyText(article), article.querySelector("h2").textContent, listen);
+  if (btn === activeBtn) {           // same button: plain toggle
+    if (player.paused) player.play();
+    else player.pause();
+    return;
   }
+  setGlyph(activeBtn, false);        // switch to another story/digest
+  activeBtn = btn;
+  player.src = btn.dataset.audio;
+  player.hidden = false;
+  player.play();
 });
 
 // ---- select/long-press ANY word -> small button -> hear it --------------
@@ -198,7 +93,7 @@ document.body.appendChild(selBtn);
 
 selBtn.addEventListener("pointerdown", (e) => e.preventDefault()); // keep the selection
 selBtn.addEventListener("click", () => {
-  if (selBtn.dataset.word) read(selBtn.dataset.word, selBtn.dataset.word, null);
+  if (selBtn.dataset.word) speakFallback(selBtn.dataset.word);
   selBtn.hidden = true;
 });
 

@@ -22,6 +22,13 @@ jobs:
     steps:
       - uses: actions/checkout@v7
       - uses: astral-sh/setup-uv@v7
+      - uses: actions/cache@v4
+        with:
+          path: ~/.cache/huggingface
+          key: kokoro-82m
+      - run: sudo apt-get install -y -q espeak-ng ffmpeg
+      - run: uv run audio.py || echo "::warning::audio generation failed, publishing without audio"
+      # render after audio so listen buttons match the audio that actually exists
       - run: uv run digest.py render
       - run: |
           git config user.name "digest-bot"
