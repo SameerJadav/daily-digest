@@ -8,6 +8,9 @@ Usage:
 The digest content for each day lives in data/YYYY-MM-DD.json; HTML in docs/ is always
 derived from it. To change the UI, edit docs/style.css / docs/app.js (take effect on push)
 or the templates below (then run `digest.py render`).
+
+Diagnostics: everything printed via dbg() goes to the Actions log only (stderr), never
+to the site — keep it verbose, it is the only way to debug scheduled runs after the fact.
 """
 
 import calendar
@@ -29,11 +32,13 @@ IST = timezone(timedelta(hours=5, minutes=30))
 MODEL = "gemini-3.5-flash"
 
 
+def dbg(msg: str) -> None:
+    print(f"[debug] {msg}", file=sys.stderr)
+
+
 # ---------------------------------------------------------------- fetch
 
-
-def fetch_entries() -> list[dict]:
-    cutoff = datetime.now(timezone.utc) - timedelta(hours=24)
+def fetch_entries(window_start: datetime) -> list[dict]:
     feeds = [
         line.split()
         for line in (ROOT / "feeds.txt").read_text().splitlines()
@@ -46,17 +51,14 @@ def fetch_entries() -> list[dict]:
         if feed.bozo and not feed.entries:
             print(f"warning: could not parse {url}", file=sys.stderr)
             continue
-        outlet = (
-            parts[0].replace("-", " ")
-            if len(parts) > 1
-            else feed.feed.get("title", url)
-        )
+        outlet = parts[0].replace("-", " ") if len(parts) > 1 else feed.feed.get("title", url)
+        kept = 0
         for e in feed.entries:
             parsed = e.get("published_parsed") or e.get("updated_parsed")
             if not parsed:
                 continue
             published = datetime.fromtimestamp(calendar.timegm(parsed), timezone.utc)
-            if published < cutoff:
+            if published < window_start:
                 continue
             summary = html.unescape(re.sub(r"<[^>]+>", " ", e.get("summary", "")))
             entries.append(
@@ -67,6 +69,8 @@ def fetch_entries() -> list[dict]:
                     "summary": " ".join(summary.split())[:500],
                 }
             )
+            kept += 1
+        dbg(f"feed {outlet}: kept {kept}/{len(feed.entries)} entries")
     return entries
 
 
@@ -81,13 +85,14 @@ def fetch_fulltext(urls: list[str]) -> dict[str, str]:
             text = trafilatura.extract(page) if page else None
             if text:
                 texts[url] = text[:4000]
+            else:
+                dbg(f"fulltext MISS (no text): {url}")
         except Exception as e:
-            print(f"warning: fulltext failed for {url}: {e}", file=sys.stderr)
+            dbg(f"fulltext MISS ({e}): {url}")
     return texts
 
 
 # ---------------------------------------------------------------- memory
-
 
 def load_memory(exclude_date: str) -> dict:
     """What the reader has already seen, from past days' data files."""
@@ -97,19 +102,30 @@ def load_memory(exclude_date: str) -> dict:
         if p.stem != exclude_date
     ]
     covered = [
-        f"[{d['date']}] {s['headline']} — was watching: {s['what_to_watch_next'][:150]}"
+        f"[{d['date']}] {s['headline']}\n  already told: {s['what_happened'][:200]}\n"
+        f"  was watching for: {s['what_to_watch_next'][:150]}"
         for d in days[-7:]
         for s in d["stories"]
     ]
     vocab = sorted(
-        {
-            v["term"]
-            for d in days[-14:]
-            for s in d["stories"]
-            for v in s.get("vocab", [])
-        }
+        {v["term"] for d in days[-14:] for s in d["stories"] for v in s.get("vocab", [])}
     )
-    return {"covered": covered, "vocab": vocab}
+    last_generated = days[-1].get("generated_at") if days else None
+    dbg(f"memory: {len(covered)} covered stories from {len(days[-7:])} day(s), "
+        f"{len(vocab)} vocab terms excluded, last_generated={last_generated}")
+    return {"covered": covered, "vocab": vocab, "last_generated": last_generated}
+
+
+def article_window(now: datetime, last_generated: str | None) -> datetime:
+    """Articles since the previous digest, so the model never re-reads what it already
+    digested. Floor 12h (manual same-day reruns still get a real window), cap 48h."""
+    start = now - timedelta(hours=24)
+    if last_generated:
+        last = datetime.fromisoformat(last_generated)
+        if now - timedelta(hours=48) <= last <= now - timedelta(hours=12):
+            start = last
+    dbg(f"article window: since {start.isoformat()} ({(now - start).total_seconds() / 3600:.1f}h)")
+    return start
 
 
 # ---------------------------------------------------------------- gemini
@@ -122,10 +138,7 @@ SELECT_SCHEMA = {
             "items": {
                 "type": "object",
                 "properties": {
-                    "topic": {
-                        "type": "string",
-                        "description": "A few words naming the story.",
-                    },
+                    "topic": {"type": "string", "description": "A few words naming the story."},
                     "source_ids": {
                         "type": "array",
                         "items": {"type": "integer"},
@@ -143,22 +156,31 @@ SELECT_PROMPT = """\
 You are selecting stories for a once-daily news digest for a curious, intelligent reader \
 in India who wants global and Indian news with as little bias as possible.
 
-Below is every article published in the last 24 hours by a geographically diverse set of \
-outlets, as a numbered list. Cluster articles about the same event and select the 5 to 7 \
+Below is every article published since the previous digest by a geographically diverse set \
+of outlets, as a numbered list. Cluster articles about the same event and select the 5 to 7 \
 stories that matter most.
 
 Selection rules:
 - Prefer stories with concrete real-world consequences over outrage, gossip, or horse-race politics.
 - Include at least one story about India and at least one story from a region or topic that \
 mainstream feeds under-cover.
-- The reader already followed these stories on previous days; re-select one only if there is \
-a genuine new development, not for a repeat of what they already know:
-{covered}
 - For each selected story, give the ids of the up-to-4 most substantial articles covering it.
 
-Articles:
-{articles}
+The reader already read these stories in previous digests:
+{covered}
+
+Anti-repetition rules (strict):
+- Re-select a covered story ONLY if today's articles report a genuine turn: a decision made, \
+a reversal, a major escalation, a resolution, or new information that changes what the reader \
+understood. Day N of an already-reported multi-day event, updated casualty or attendance \
+counts, more reactions, or more of the same are NOT new developments — do not select those; \
+they belong in the digest's follow-ups instead.
+- When in doubt between re-selecting a covered story and selecting a fresh one, pick the \
+fresh one. The reader gains more from one new story than from a repeat.
 """
+
+# articles appended after the rules so the (long) list can't push them out of attention
+SELECT_PROMPT += "\nArticles:\n{articles}\n"
 
 WRITE_SCHEMA = {
     "type": "object",
@@ -259,16 +281,18 @@ places, treaties, titles. For each give "say", a simple phonetic respelling with
 syllable in capitals (e.g. Ayatollah -> eye-uh-TOH-luh), and "meaning", one or two plain sentences \
 explaining the term as used in this story.
 
-The reader has been following this digest daily. Stories they already read, and what those \
-stories said to watch for:
+The reader has been following this digest daily. Stories they already read, what those \
+stories told them, and what they were told to watch for:
 {covered}
 
-Memory rules:
-- If a today's story continues one of those, write it as an UPDATE: lead with what is new, \
-recap the old story in at most one sentence, and explicitly connect to what they were watching for.
-- follow_ups: one or two sentence updates on previously covered stories that had a real \
-development in today's articles but are NOT among today's selected stories. Only report \
-developments supported by today's articles. Empty list if none.
+Memory rules (strict):
+- If a today's story continues one of those, write it as an UPDATE for someone who already \
+read the original: lead with what is NEW, recap the old story in at most one sentence, and \
+explicitly connect to what they were watching for. Never re-tell a covered story as if the \
+reader is seeing it for the first time.
+- follow_ups: go through each previously covered story above. If today's articles contain a \
+development for it and it is NOT among today's selected stories, add a one-or-two-sentence \
+follow-up. Only report developments supported by today's articles. Empty list if none.
 - Do not repeat these vocab terms the reader learned recently (pick new ones instead): {vocab}
 
 Today's selected stories and source articles:
@@ -280,15 +304,10 @@ def _call(client, **kwargs):
     for attempt in range(4):
         try:
             return client.models.generate_content(**kwargs)
-        except (
-            Exception
-        ) as e:  # ponytail: blanket retry; free-tier 429s and 5xx look the same to us
+        except Exception as e:  # ponytail: blanket retry; free-tier 429s and 5xx look the same to us
             if attempt == 3:
                 raise
-            print(
-                f"gemini attempt {attempt + 1} failed, retrying in 75s: {e}",
-                file=sys.stderr,
-            )
+            print(f"gemini attempt {attempt + 1} failed, retrying in 75s: {e}", file=sys.stderr)
             time.sleep(75)
 
 
@@ -300,9 +319,9 @@ def generate_day(entries: list[dict], memory: dict, today: datetime) -> dict:
     covered = "\n".join(memory["covered"]) or "(nothing yet — this is the first digest)"
 
     articles = "\n".join(
-        f"[{i}] ({e['outlet']}) {e['title']} — {e['summary']}"
-        for i, e in enumerate(entries)
+        f"[{i}] ({e['outlet']}) {e['title']} — {e['summary']}" for i, e in enumerate(entries)
     )
+    t0 = time.time()
     selection = json.loads(
         _call(
             client,
@@ -313,20 +332,17 @@ def generate_day(entries: list[dict], memory: dict, today: datetime) -> dict:
             ),
         ).text
     )
+    dbg(f"select pass: {time.time() - t0:.1f}s -> " +
+        "; ".join(f"{s['topic']} ({len(s['source_ids'])} src)" for s in selection["stories"]))
 
     chosen = [
-        (
-            s["topic"],
-            [i for i in dict.fromkeys(s["source_ids"]) if 0 <= i < len(entries)][:4],
-        )
+        (s["topic"], [i for i in dict.fromkeys(s["source_ids"]) if 0 <= i < len(entries)][:4])
         for s in selection["stories"]
     ]
     texts = fetch_fulltext([entries[i]["url"] for _, ids in chosen for i in ids])
-    print(
-        f"selected {len(chosen)} stories; full text for "
-        f"{sum(1 for _, ids in chosen for i in ids if entries[i]['url'] in texts)}"
-        f"/{sum(len(ids) for _, ids in chosen)} articles"
-    )
+    print(f"selected {len(chosen)} stories; full text for "
+          f"{sum(1 for _, ids in chosen for i in ids if entries[i]['url'] in texts)}"
+          f"/{sum(len(ids) for _, ids in chosen)} articles")
 
     blocks = []
     for topic, ids in chosen:
@@ -338,6 +354,7 @@ def generate_day(entries: list[dict], memory: dict, today: datetime) -> dict:
         blocks.append("\n\n".join(parts))
     stories_block = "\n\n----\n\n".join(blocks)
 
+    t0 = time.time()
     digest = json.loads(
         _call(
             client,
@@ -352,6 +369,12 @@ def generate_day(entries: list[dict], memory: dict, today: datetime) -> dict:
             ),
         ).text
     )
+    dbg(f"write pass: {time.time() - t0:.1f}s -> {len(digest['stories'])} stories, "
+        f"{len(digest['follow_ups'])} follow-ups")
+    for s in digest["stories"]:
+        dbg(f"  story: {s['headline'][:80]} | {len(s['source_ids'])} sources, {len(s['vocab'])} vocab")
+    for f in digest["follow_ups"]:
+        dbg(f"  follow-up: {f['about'][:60]}")
 
     stories = []
     for s in digest["stories"]:
@@ -373,6 +396,7 @@ def generate_day(entries: list[dict], memory: dict, today: datetime) -> dict:
     return {
         "date": f"{today:%Y-%m-%d}",
         "date_label": today.strftime("%A, %d %B %Y"),
+        "generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         "day_summary": digest["day_summary"],
         "stories": stories,
         "follow_ups": digest["follow_ups"],
@@ -408,7 +432,7 @@ def render_vocab(vocab: list[dict]) -> str:
     esc = html.escape
     items = "".join(
         f"""<dt><span class="term">{esc(v["term"])}</span>
-<button class="say" data-word="{esc(v["term"], quote=True)}" aria-label="pronounce {esc(v["term"], quote=True)}"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z"/><path d="M16 9a5 5 0 0 1 0 6"/><path d="M19.364 18.364a9 9 0 0 0 0-12.728"/></svg></button>
+<button class="say" data-word="{esc(v["term"], quote=True)}" aria-label="pronounce {esc(v["term"], quote=True)}">&#128264;</button>
 <span class="pron">{esc(v["say"])}</span></dt>
 <dd>{esc(v["meaning"])}</dd>"""
         for v in vocab
@@ -416,25 +440,16 @@ def render_vocab(vocab: list[dict]) -> str:
     return f'<aside class="vocab"><h3>Words to know</h3><dl>{items}</dl></aside>'
 
 
-def render_story(story: dict, i: int, audio: bool) -> str:
+def render_story(story: dict) -> str:
     esc = html.escape
     sources = "".join(
         f'<a href="{esc(s["url"], quote=True)}" target="_blank" rel="noopener">{esc(s["outlet"])}</a>'
         for s in story["sources"]
     )
-    listen = (
-        (
-            f'<button class="listen" data-audio="audio/s{i}.mp3">'
-            f'<svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">'
-            f'<path d="M5 5a2 2 0 0 1 3.008-1.728l11.997 6.998a2 2 0 0 1 .003 3.458l-12 7A2 2 0 0 1 5 19z"/></svg> Listen</button>'
-        )
-        if audio
-        else ""
-    )
     return f"""
 <article>
 <h2>{esc(story["headline"])}</h2>
-{listen}
+<button class="listen">&#9654; Listen</button>
 <h3>What happened</h3><p>{esc(story["what_happened"])}</p>
 <h3>Why it matters</h3><p>{esc(story["why_it_matters"])}</p>
 <h3>What to watch next</h3><p>{esc(story["what_to_watch_next"])}</p>
@@ -443,39 +458,25 @@ def render_story(story: dict, i: int, audio: bool) -> str:
 </article>"""
 
 
-def render_digest_page(day: dict, prefix: str, footer: str, audio: bool = False) -> str:
+def render_digest_page(day: dict, prefix: str, footer: str) -> str:
     esc = html.escape
     follow = ""
     if day.get("follow_ups"):
         items = "".join(
-            f"<p><strong>{esc(f['about'])}</strong> — {esc(f['update'])}</p>"
+            f'<p><strong>{esc(f["about"])}</strong> — {esc(f["update"])}</p>'
             for f in day["follow_ups"]
         )
         follow = f'<section class="follow-ups"><h3>Since you read</h3>{items}</section>'
-    listen_all = (
-        (
-            '<button id="listen-all" class="listen" data-audio="audio/full.mp3">'
-            '<svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">'
-            '<path d="M5 5a2 2 0 0 1 3.008-1.728l11.997 6.998a2 2 0 0 1 .003 3.458l-12 7A2 2 0 0 1 5 19z"/></svg> Listen to today\'s digest</button>'
-        )
-        if audio
-        else ""
-    )
     body = f"""<header>
 <h1>Daily Digest</h1>
 <div class="date">{esc(day["date_label"])}</div>
 <p class="day-summary">{esc(day["day_summary"])}</p>
-{listen_all}
+<button id="listen-all" class="listen">&#9654; Listen to this digest</button>
 </header>
-{"".join(render_story(s, i, audio) for i, s in enumerate(day["stories"]))}
+{"".join(render_story(s) for s in day["stories"])}
 {follow}
 <p class="close">That's your digest. You're informed. Come back tomorrow.</p>"""
-    return PAGE.format(
-        title=f"Digest — {esc(day['date_label'])}",
-        prefix=prefix,
-        body=body,
-        footer=footer,
-    )
+    return PAGE.format(title=f"Digest — {esc(day['date_label'])}", prefix=prefix, body=body, footer=footer)
 
 
 def render_all() -> None:
@@ -491,14 +492,10 @@ def render_all() -> None:
 
     for day in days:
         (ARCHIVE / f"{day['date']}.html").write_text(
-            render_digest_page(
-                day, "../", '<a href="./">All digests</a> <a href="../">Latest</a>'
-            )
+            render_digest_page(day, "../", '<a href="./">All digests</a> <a href="../">Latest</a>')
         )
     (DOCS / "index.html").write_text(
-        render_digest_page(
-            days[0], "", '<a href="archive/">All past digests</a>', audio=True
-        )
+        render_digest_page(days[0], "", '<a href="archive/">All past digests</a>')
     )
 
     items = "".join(
@@ -510,7 +507,7 @@ def render_all() -> None:
         PAGE.format(
             title="Daily Digest — Archive",
             prefix="../",
-            body=f'<header><h1>All digests</h1></header>\n<ul class="archive-list">{items}</ul>',
+            body=f"<header><h1>All digests</h1></header>\n<ul class=\"archive-list\">{items}</ul>",
             footer='<a href="../">Latest digest</a>',
         )
     )
@@ -521,22 +518,21 @@ def main() -> None:
     if sys.argv[1:] == ["render"]:
         render_all()
         return
-    today = datetime.now(IST)
+    now = datetime.now(timezone.utc)
+    today = now.astimezone(IST)
     if "--if-missing" in sys.argv and (DATA / f"{today:%Y-%m-%d}.json").exists():
         print("today's digest already exists; nothing to do")
         return
-    entries = fetch_entries()
-    print(f"{len(entries)} articles from the last 24h")
+    memory = load_memory(exclude_date=f"{today:%Y-%m-%d}")
+    entries = fetch_entries(article_window(now, memory["last_generated"]))
+    print(f"{len(entries)} articles since the last digest")
     if len(entries) < 10:
         sys.exit("too few articles — check feeds.txt")
-    memory = load_memory(exclude_date=f"{today:%Y-%m-%d}")
     day = generate_day(entries, memory, today)
     if not day["stories"]:
         sys.exit("model returned no stories")
     DATA.mkdir(exist_ok=True)
-    (DATA / f"{day['date']}.json").write_text(
-        json.dumps(day, ensure_ascii=False, indent=1)
-    )
+    (DATA / f"{day['date']}.json").write_text(json.dumps(day, ensure_ascii=False, indent=1))
     render_all()
 
 
