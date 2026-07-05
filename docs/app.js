@@ -1,15 +1,13 @@
-// On-demand TTS: Kokoro-82M running in the browser (voice af_heart, female).
-// The model (~90 MB) downloads on first listen and is cached by the browser after that.
-// Sentences are synthesized one by one and scheduled gaplessly through WebAudio, so
-// playback never needs the programmatic <audio>.play() that mobile autoplay policies block.
-// Browser speechSynthesis is only the fallback if the model fails to load.
+// Listening UI. All Kokoro synthesis runs in tts-worker.js (a separate thread),
+// so this page never blocks: the main thread only schedules finished audio
+// chunks through WebAudio and updates buttons. Voice: af_heart (female).
+// Model (~90 MB) downloads on first listen, then lives in the browser cache.
+// Browser speechSynthesis is only the fallback if the worker/model fails.
 // Edit freely — the AI pipeline never touches this file.
 
-const KOKORO_URL = "https://cdn.jsdelivr.net/npm/kokoro-js@1.2.1/+esm";
-const MODEL_ID = "onnx-community/Kokoro-82M-v1.0-ONNX";
-const VOICE = "af_heart";
+const prefix = document.body.dataset.prefix || "";
 
-// ---- status bar -------------------------------------------------------
+// ---- bottom bar (hidden until a listen action starts) ------------------
 const bar = document.createElement("div");
 bar.id = "tts-bar";
 bar.hidden = true;
@@ -21,37 +19,48 @@ document.body.appendChild(bar);
 const statusEl = bar.querySelector("#tts-status");
 const toggleEl = bar.querySelector("#tts-toggle");
 
-function setStatus(text) { statusEl.textContent = text; bar.hidden = !text; }
-
-// ---- kokoro loading ---------------------------------------------------
-let ttsPromise = null;
-function loadTTS() {
-  ttsPromise ??= import(KOKORO_URL).then(({ KokoroTTS }) =>
-    KokoroTTS.from_pretrained(MODEL_ID, { dtype: "q8", device: "wasm" })
-  ).catch((e) => { ttsPromise = null; throw e; });
-  return ttsPromise;
-}
-
-// ---- playback ---------------------------------------------------------
+// ---- state --------------------------------------------------------------
+let worker = null;
+let workerBroken = false;
+let reqId = 0;
 let ctx = null;
-let session = 0;       // bumped to cancel any in-flight read
 let playhead = 0;
 let liveSources = [];
-let generating = false;
+let generationDone = false;
+let activeBtn = null;
+let activeText = "";
 
-function stopAll() {
-  session += 1;
-  liveSources.forEach((s) => { try { s.stop(); } catch {} });
-  liveSources = [];
-  setStatus("");
-  if (ctx && ctx.state === "suspended") ctx.resume();
-  toggleEl.textContent = "❚❚";
+function ensureWorker() {
+  if (worker || workerBroken) return worker;
+  try {
+    worker = new Worker(prefix + "tts-worker.js", { type: "module" });
+  } catch {
+    workerBroken = true;
+    return null;
+  }
+  worker.onerror = () => {
+    workerBroken = true;
+    fallbackNow();
+  };
+  worker.onmessage = (e) => {
+    const m = e.data;
+    if (m.id !== reqId) return; // stale request
+    if (m.type === "downloading") statusEl.textContent = "Downloading voice (first time only, ~90 MB)…";
+    else if (m.type === "start") statusEl.textContent = labelText;
+    else if (m.type === "chunk") schedule(m.audio, m.sr);
+    else if (m.type === "done") {
+      generationDone = true;
+      if (!liveSources.length) finish();
+    } else if (m.type === "error") fallbackNow();
+  };
+  return worker;
 }
 
-function schedule(raw, mySession) {
-  if (mySession !== session) return;
-  const buf = ctx.createBuffer(1, raw.audio.length, raw.sampling_rate);
-  buf.copyToChannel(raw.audio, 0);
+let labelText = "";
+
+function schedule(audio, sr) {
+  const buf = ctx.createBuffer(1, audio.length, sr);
+  buf.copyToChannel(audio, 0);
   const src = ctx.createBufferSource();
   src.buffer = buf;
   src.connect(ctx.destination);
@@ -61,51 +70,71 @@ function schedule(raw, mySession) {
   liveSources.push(src);
   src.onended = () => {
     liveSources = liveSources.filter((s) => s !== src);
-    if (!liveSources.length && !generating && mySession === session) setStatus("");
+    if (!liveSources.length && generationDone) finish();
   };
 }
 
-async function read(text, label) {
-  // must be called from a user gesture so the AudioContext is allowed to start
-  ctx ??= new (window.AudioContext || window.webkitAudioContext)();
-  ctx.resume();
-  stopAll();
-  const mySession = session;
-  setStatus(ttsPromise ? label : "Downloading voice (first time only, ~90 MB)…");
-  let tts;
-  try {
-    tts = await loadTTS();
-  } catch (e) {
-    setStatus("");
-    speakFallback(text);
-    return;
-  }
-  if (mySession !== session) return;
-  setStatus(label);
-  playhead = ctx.currentTime + 0.1;
-  generating = true;
-  const sentences = text.match(/[^.!?\n]+[.!?]+["')\]]?|[^.!?\n]+/g) || [text];
-  for (const sentence of sentences) {
-    if (mySession !== session) { generating = false; return; }
-    const t = sentence.trim();
-    if (!t) continue;
-    try {
-      const raw = await tts.generate(t, { voice: VOICE });
-      schedule(raw, mySession);
-    } catch (e) { /* skip a bad sentence, keep reading */ }
-  }
-  generating = false;
-  if (!liveSources.length && mySession === session) setStatus("");
+function setBtn(btn, playing) {
+  if (!btn || !btn.classList.contains("listen")) return;
+  btn.classList.toggle("playing", playing);
+  const base = btn.id === "listen-all" ? " Listen to this digest" : " Listen";
+  btn.innerHTML = (playing ? "&#10074;&#10074;" : "&#9654;") + base;
 }
 
-toggleEl.addEventListener("click", () => {
-  if (!ctx) return;
-  if (ctx.state === "running") { ctx.suspend(); toggleEl.textContent = "▶"; }
-  else { ctx.resume(); toggleEl.textContent = "❚❚"; }
-});
-bar.querySelector("#tts-stop").addEventListener("click", stopAll);
+function stopPlayback() {
+  reqId += 1; // cancels in-flight worker generation and stale messages
+  liveSources.forEach((s) => { try { s.stop(); } catch {} });
+  liveSources = [];
+  generationDone = false;
+  if (ctx && ctx.state === "suspended") ctx.resume();
+  toggleEl.innerHTML = "&#10074;&#10074;";
+  setBtn(activeBtn, false);
+  activeBtn = null;
+}
 
-// ---- what to read -----------------------------------------------------
+function finish() {
+  stopPlayback();
+  bar.hidden = true;
+}
+
+function fallbackNow() {
+  const text = activeText;
+  finish();
+  if (text) speakFallback(text);
+}
+
+function read(text, label, btn) {
+  ctx ??= new (window.AudioContext || window.webkitAudioContext)();
+  ctx.resume();
+  stopPlayback();
+  if (workerBroken || !ensureWorker()) { speakFallback(text); return; }
+  activeBtn = btn || null;
+  activeText = text;
+  labelText = label;
+  setBtn(activeBtn, true);
+  statusEl.textContent = "Preparing voice…";
+  bar.hidden = false;
+  playhead = 0;
+  worker.postMessage({ id: reqId, text });
+}
+
+function togglePause() {
+  if (!ctx) return;
+  if (ctx.state === "running") {
+    ctx.suspend();
+    toggleEl.innerHTML = "&#9654;";
+    setBtn(activeBtn, false);
+  } else {
+    ctx.resume();
+    toggleEl.innerHTML = "&#10074;&#10074;";
+    setBtn(activeBtn, true);
+  }
+}
+
+toggleEl.addEventListener("click", togglePause);
+bar.querySelector("#tts-stop").addEventListener("click", finish);
+
+// ---- what to read -------------------------------------------------------
 function storyText(article) {
   const parts = [article.querySelector("h2").textContent + "."];
   article.querySelectorAll("h3").forEach((h) => {
@@ -143,40 +172,46 @@ function speakFallback(text) {
   speechSynthesis.speak(u);
 }
 
+// ---- clicks -------------------------------------------------------------
 document.addEventListener("click", (e) => {
   const say = e.target.closest(".say");
-  if (say) { read(say.dataset.word, say.dataset.word); return; }
-  if (e.target.closest("#listen-all")) { read(digestText(), "Reading the digest…"); return; }
+  if (say) { read(say.dataset.word, say.dataset.word, null); return; }
+
   const listen = e.target.closest(".listen");
-  if (listen) {
+  if (!listen) return;
+
+  if (listen === activeBtn) { togglePause(); return; } // same button = pause/resume
+
+  if (listen.id === "listen-all") read(digestText(), "Reading the digest…", listen);
+  else {
     const article = listen.closest("article");
-    if (article) read(storyText(article), article.querySelector("h2").textContent);
+    if (article) read(storyText(article), article.querySelector("h2").textContent, listen);
   }
 });
 
-// ---- select/long-press ANY word -> small button -> hear it ------------
-const btn = document.createElement("button");
-btn.id = "speak-selection";
-btn.textContent = "\u{1F508} say it";
-btn.hidden = true;
-document.body.appendChild(btn);
+// ---- select/long-press ANY word -> small button -> hear it --------------
+const selBtn = document.createElement("button");
+selBtn.id = "speak-selection";
+selBtn.textContent = "\u{1F508} say it";
+selBtn.hidden = true;
+document.body.appendChild(selBtn);
 
-btn.addEventListener("pointerdown", (e) => e.preventDefault()); // keep the selection
-btn.addEventListener("click", () => {
-  if (btn.dataset.word) read(btn.dataset.word, btn.dataset.word);
-  btn.hidden = true;
+selBtn.addEventListener("pointerdown", (e) => e.preventDefault()); // keep the selection
+selBtn.addEventListener("click", () => {
+  if (selBtn.dataset.word) read(selBtn.dataset.word, selBtn.dataset.word, null);
+  selBtn.hidden = true;
 });
 
 document.addEventListener("selectionchange", () => {
   const sel = window.getSelection();
   const text = sel.toString().trim();
   if (!text || text.length > 80 || sel.rangeCount === 0) {
-    btn.hidden = true;
+    selBtn.hidden = true;
     return;
   }
   const rect = sel.getRangeAt(0).getBoundingClientRect();
-  btn.dataset.word = text;
-  btn.style.top = window.scrollY + rect.bottom + 10 + "px";
-  btn.style.left = Math.max(8, window.scrollX + rect.left) + "px";
-  btn.hidden = false;
+  selBtn.dataset.word = text;
+  selBtn.style.top = window.scrollY + rect.bottom + 10 + "px";
+  selBtn.style.left = Math.max(8, window.scrollX + rect.left) + "px";
+  selBtn.hidden = false;
 });

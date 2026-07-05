@@ -74,7 +74,10 @@ article p { margin: 0.2rem 0 0; }
   font-size: 0.875rem;
   padding: 0.3rem 0.85rem;
   cursor: pointer;
+  transition: background 0.15s;
 }
+.listen:active { background: #f3efe6; }
+.listen.playing { background: #1f1f1f; color: #fff; border-color: #1f1f1f; }
 #listen-all { margin-top: 1rem; }
 article .listen { margin-bottom: 0.4rem; }
 
