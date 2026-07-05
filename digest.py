@@ -405,12 +405,23 @@ def generate_day(entries: list[dict], memory: dict, today: datetime) -> dict:
 
 # ---------------------------------------------------------------- render
 
+BASE_URL = "https://sameerjadav.github.io/daily-digest/"
+
 PAGE = """<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#faf8f4">
+<meta name="description" content="{description}">
+<meta name="theme-color" content="#faf8f4" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#1c1a17" media="(prefers-color-scheme: dark)">
+<link rel="canonical" href="{canonical}">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Daily Digest">
+<meta property="og:title" content="{title}">
+<meta property="og:description" content="{description}">
+<meta property="og:url" content="{canonical}">
+<meta property="og:image" content="{base_url}icon-512.png">
 <title>{title}</title>
 <link rel="stylesheet" href="{prefix}style.css">
 <link rel="manifest" href="{prefix}manifest.json">
@@ -419,8 +430,10 @@ PAGE = """<!DOCTYPE html>
 <script src="{prefix}app.js" defer></script>
 </head>
 <body data-prefix="{prefix}" data-date="{date}">
+<main>
 {body}
-<footer>{footer}</footer>
+</main>
+<footer><nav>{footer}</nav></footer>
 </body>
 </html>
 """
@@ -446,8 +459,10 @@ def render_story(story: dict, i: int, prefix: str, date: str, audio: bool) -> st
         f'<a href="{esc(s["url"], quote=True)}" target="_blank" rel="noopener">{esc(s["outlet"])}</a>'
         for s in story["sources"]
     )
+    sources = f'<p class="sources">{sources}</p>' if sources else ""
     listen = (
-        f'<button class="listen" data-audio="{prefix}audio/{date}/s{i}.mp3">&#9654; Listen</button>'
+        f'<button class="listen" data-audio="{prefix}audio/{date}/s{i}.mp3" aria-pressed="false">'
+        f'<span class="glyph" aria-hidden="true">&#9654;</span> Listen</button>'
         if audio else ""
     )
     return f"""
@@ -458,11 +473,11 @@ def render_story(story: dict, i: int, prefix: str, date: str, audio: bool) -> st
 <h3>Why it matters</h3><p>{esc(story["why_it_matters"])}</p>
 <h3>What to watch next</h3><p>{esc(story["what_to_watch_next"])}</p>
 {render_vocab(story.get("vocab", []))}
-<p class="sources">{sources}</p>
+{sources}
 </article>"""
 
 
-def render_digest_page(day: dict, prefix: str, footer: str) -> str:
+def render_digest_page(day: dict, prefix: str, footer: str, canonical: str) -> str:
     esc = html.escape
     date = day["date"]
     audio = (DOCS / "audio" / date / "full.mp3").exists()
@@ -474,7 +489,8 @@ def render_digest_page(day: dict, prefix: str, footer: str) -> str:
         )
         follow = f'<section class="follow-ups"><h3>Since you read</h3>{items}</section>'
     listen_all = (
-        f'<button id="listen-all" class="listen" data-audio="{prefix}audio/{date}/full.mp3">&#9654; Listen to this digest</button>'
+        f'<button id="listen-all" class="listen" data-audio="{prefix}audio/{date}/full.mp3" aria-pressed="false">'
+        f'<span class="glyph" aria-hidden="true">&#9654;</span> Listen to this digest</button>'
         if audio else ""
     )
     body = f"""<header>
@@ -486,7 +502,16 @@ def render_digest_page(day: dict, prefix: str, footer: str) -> str:
 {"".join(render_story(s, i, prefix, date, audio) for i, s in enumerate(day["stories"]))}
 {follow}
 <p class="close">That's your digest. You're informed. Come back tomorrow.</p>"""
-    return PAGE.format(title=f"Digest — {esc(day['date_label'])}", prefix=prefix, date=date, body=body, footer=footer)
+    return PAGE.format(
+        title=f"Digest — {esc(day['date_label'])}",
+        description=esc(day["day_summary"]),
+        canonical=canonical,
+        base_url=BASE_URL,
+        prefix=prefix,
+        date=date,
+        body=body,
+        footer=footer,
+    )
 
 
 def render_all() -> None:
@@ -502,10 +527,14 @@ def render_all() -> None:
 
     for day in days:
         (ARCHIVE / f"{day['date']}.html").write_text(
-            render_digest_page(day, "../", '<a href="./">All digests</a> <a href="../">Latest</a>')
+            render_digest_page(
+                day, "../",
+                '<a href="./">Archive</a> <a href="../">Latest digest</a>',
+                canonical=f"{BASE_URL}archive/{day['date']}.html",
+            )
         )
     (DOCS / "index.html").write_text(
-        render_digest_page(days[0], "", '<a href="archive/">All past digests</a>')
+        render_digest_page(days[0], "", '<a href="archive/">Archive</a>', canonical=BASE_URL)
     )
 
     items = "".join(
@@ -516,6 +545,9 @@ def render_all() -> None:
     (ARCHIVE / "index.html").write_text(
         PAGE.format(
             title="Daily Digest — Archive",
+            description="Every past Daily Digest, one page per day.",
+            canonical=f"{BASE_URL}archive/",
+            base_url=BASE_URL,
             prefix="../",
             date="",
             body=f"<header><h1>All digests</h1></header>\n<ul class=\"archive-list\">{items}</ul>",

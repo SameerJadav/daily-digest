@@ -1,5 +1,34 @@
 /* Edit freely — the AI pipeline never touches this file. Push and it's live. */
-:root { color-scheme: light; }
+:root {
+  color-scheme: light dark;
+  --bg: #faf8f4;
+  --fg: #1f1f1f;
+  --link: #14538c;
+  --muted: #6f6a62;
+  --ink-soft: #3d3a35;
+  --border: #e2ddd3;
+  --border-strong: #d8d2c4;
+  --panel: #f3efe6;
+  --btn-bg: #fff;
+  --playing-bg: #1f1f1f;
+  --playing-fg: #fff;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #1c1a17;
+    --fg: #ece7de;
+    --link: #85b8ec;
+    --muted: #a89f90;
+    --ink-soft: #cfc8ba;
+    --border: #3a352c;
+    --border-strong: #4a4438;
+    --panel: #2a2620;
+    --btn-bg: #2a2620;
+    --playing-bg: #ece7de;
+    --playing-fg: #1c1a17;
+  }
+}
 
 body {
   max-width: 40rem;
@@ -8,45 +37,51 @@ body {
   font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans", sans-serif;
   font-size: 1.0625rem;
   line-height: 1.65;
-  background: #faf8f4;
-  color: #1f1f1f;
+  background: var(--bg);
+  color: var(--fg);
   overflow-wrap: break-word;
 }
 
-a { color: #14538c; }
+a { color: var(--link); }
+
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--link);
+  outline-offset: 2px;
+}
 
 header { margin-bottom: 2.25rem; }
 h1 { font-size: 1.45rem; margin: 0 0 0.25rem; }
-.date { color: #6f6a62; font-size: 0.95rem; }
-.day-summary { font-style: italic; margin-top: 1rem; color: #3d3a35; }
+.date { color: var(--muted); font-size: 0.95rem; }
+.day-summary { font-style: italic; margin-top: 1rem; color: var(--ink-soft); }
 
-article { margin: 2.25rem 0; border-top: 1px solid #e2ddd3; padding-top: 1.4rem; }
+article { margin: 2.25rem 0; border-top: 1px solid var(--border); padding-top: 1.4rem; }
 h2 { font-size: 1.25rem; line-height: 1.35; margin: 0 0 1rem; }
 h3 {
   font-size: 0.78rem;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: #8a7f6d;
+  color: var(--muted);
   margin: 1.2rem 0 0.2rem;
 }
 article p { margin: 0.2rem 0 0; }
 
 .sources { font-size: 0.875rem; margin-top: 1.1rem; }
-.sources a { margin-right: 0.9rem; }
+.sources a { display: inline-block; margin-right: 0.9rem; padding: 0.3rem 0; }
 
 .close {
   margin-top: 3.5rem;
-  border-top: 1px solid #e2ddd3;
+  border-top: 1px solid var(--border);
   padding-top: 2rem;
   text-align: center;
   font-style: italic;
-  color: #3d3a35;
+  color: var(--ink-soft);
 }
 
 .vocab {
   margin-top: 1.4rem;
   padding: 0.9rem 1.1rem 1.1rem;
-  background: #f3efe6;
+  background: var(--panel);
   border-radius: 0.5rem;
 }
 .vocab h3 { margin-top: 0; }
@@ -54,30 +89,34 @@ article p { margin: 0.2rem 0 0; }
 .vocab dt { margin-top: 0.7rem; }
 .vocab dt:first-child { margin-top: 0; }
 .vocab .term { font-weight: 650; }
-.vocab .pron { color: #6f6a62; font-size: 0.9rem; }
+.vocab .pron { color: var(--muted); font-size: 0.9rem; }
 .vocab dd { margin: 0.1rem 0 0; font-size: 0.95rem; }
 .say {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2rem;
+  min-height: 2rem;
   border: 0;
   background: none;
-  padding: 0 0.15rem;
   font-size: 1rem;
   cursor: pointer;
   vertical-align: middle;
 }
 
 .listen, #listen-all {
-  border: 1px solid #d8d2c4;
+  border: 1px solid var(--border-strong);
   border-radius: 999px;
-  background: #fff;
-  color: #1f1f1f;
+  background: var(--btn-bg);
+  color: var(--fg);
   font: inherit;
   font-size: 0.875rem;
   padding: 0.3rem 0.85rem;
   cursor: pointer;
   transition: background 0.15s;
 }
-.listen:active { background: #f3efe6; }
-.listen.playing { background: #1f1f1f; color: #fff; border-color: #1f1f1f; }
+.listen:active { background: var(--panel); }
+.listen.playing { background: var(--playing-bg); color: var(--playing-fg); border-color: var(--playing-bg); }
 #listen-all { margin-top: 1rem; }
 article .listen { margin-bottom: 0.4rem; }
 
@@ -93,14 +132,14 @@ article .listen { margin-bottom: 0.4rem; }
 
 .follow-ups {
   margin-top: 2.5rem;
-  border-top: 1px solid #e2ddd3;
+  border-top: 1px solid var(--border);
   padding-top: 1.4rem;
 }
 .follow-ups h3 {
   font-size: 0.78rem;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: #8a7f6d;
+  color: var(--muted);
   margin: 0 0 0.6rem;
 }
 .follow-ups p { margin: 0.6rem 0 0; font-size: 0.975rem; }
@@ -108,10 +147,10 @@ article .listen { margin-bottom: 0.4rem; }
 #speak-selection {
   position: absolute;
   z-index: 10;
-  border: 1px solid #d8d2c4;
+  border: 1px solid var(--border-strong);
   border-radius: 999px;
-  background: #fff;
-  color: #1f1f1f;
+  background: var(--btn-bg);
+  color: var(--fg);
   font: inherit;
   font-size: 0.875rem;
   padding: 0.35rem 0.8rem;
@@ -122,7 +161,7 @@ article .listen { margin-bottom: 0.4rem; }
 .archive-list { list-style: none; padding: 0; }
 .archive-list li { margin: 1.4rem 0; }
 .archive-list a { font-weight: 600; }
-.archive-list .summary { display: block; font-size: 0.925rem; color: #6f6a62; }
+.archive-list .summary { display: block; font-size: 0.925rem; color: var(--muted); }
 
-footer { margin-top: 3rem; font-size: 0.875rem; color: #6f6a62; }
-footer a { color: inherit; margin-right: 0.9rem; }
+footer { margin-top: 3rem; font-size: 0.875rem; color: var(--muted); }
+footer a { display: inline-block; color: inherit; margin-right: 0.9rem; padding: 0.3rem 0; }
