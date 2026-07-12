@@ -1,0 +1,168 @@
+{
+ "date": "2026-07-13",
+ "date_label": "Monday, 13 July 2026",
+ "generated_at": "2026-07-12T22:33:29+00:00",
+ "day_summary": "Global politics and trade routes faced major disruptions today following the death of influential US Senator Lindsey Graham and a series of Ukrainian drone strikes that shut down Russian shipping in the Sea of Azov. Meanwhile, India declared a national day of mourning for Qatar's former leader, Sheikh Hamad bin Khalifa Al Thani, who passed away at 74.",
+ "stories": [
+  {
+   "headline": "Influential US Senator and foreign policy hawk Lindsey Graham dies at 71",
+   "what_happened": "Republican Senator Lindsey Graham of South Carolina has died at age 71 after a sudden illness. His office announced his passing on Saturday, and preliminary medical findings suggest a ruptured aorta, a major heart artery. Graham had just returned from a diplomatic trip to Ukraine and had no known previous health concerns.",
+   "why_it_matters": "Graham was one of the most prominent foreign policy hawks in Washington, known for supporting US military intervention abroad, including in Iraq and Iran. He was also a key ally of President Donald Trump and a staunch defender of Israel and Ukraine. His death narrows the Republican majority in the Senate to 52-47, creating political uncertainty ahead of the November elections.",
+   "what_to_watch_next": "Watch for South Carolina Governor Henry McMaster to appoint a temporary replacement senator, and monitor the public funeral arrangements in the coming days.",
+   "vocab": [
+    {
+     "term": "hawk",
+     "say": "HAWK",
+     "meaning": "A politician who favors aggressive foreign policies, including the use of military force. In this story, it refers to Graham's history of advocating for US interventions overseas."
+    },
+    {
+     "term": "aorta",
+     "say": "ay-OR-tuh",
+     "meaning": "The main and largest artery in the human body, which carries oxygen-rich blood away from the heart. Doctors suspect Graham died because this artery ruptured."
+    },
+    {
+     "term": "midterm elections",
+     "say": "MID-turm ee-LEK-shunz",
+     "meaning": "US elections held halfway through a president's four-year term to elect members of Congress. Graham's permanent successor will be chosen during these elections in November."
+    }
+   ],
+   "sources": [
+    {
+     "outlet": "Guardian",
+     "url": "https://www.theguardian.com/us-news/2026/jul/12/lindsey-graham-key-ally-of-donald-trump-has-died-after-sudden-illness-his-office-says"
+    },
+    {
+     "outlet": "Al Jazeera",
+     "url": "https://www.aljazeera.com/video/newsfeed/2026/7/12/lindsey-graham-hardline-backer-of-us-israeli-wars-dies-aged-71?traffic_source=rss"
+    },
+    {
+     "outlet": "DW",
+     "url": "https://www.dw.com/en/us-senator-lindsey-graham-dies/a-77921386?maca=en-rss-en-all-1573-rdf"
+    },
+    {
+     "outlet": "BBC",
+     "url": "https://www.bbc.co.uk/news/articles/cvgj25j6nmeo?at_medium=RSS&at_campaign=rss"
+    }
+   ]
+  },
+  {
+   "headline": "Former Qatari leader Sheikh Hamad bin Khalifa Al Thani dies at 74",
+   "what_happened": "Sheikh Hamad bin Khalifa Al Thani, the former Emir of Qatar who ruled from 1995 to 2013, has died at the age of 74. Qatar's government announced his death on Sunday, and he was buried following a simple Islamic funeral service in Doha. In response to his passing, India has declared a national day of mourning.",
+   "why_it_matters": "Sheikh Hamad took power in a bloodless coup against his father and used Qatar's massive natural gas reserves to turn the small nation into one of the world's richest countries. He founded the Al Jazeera news network, expanded Qatar Airways, and won the bid to host the 2022 FIFA World Cup. However, his legacy also faced intense criticism over the deaths of thousands of South Asian migrant workers, including many from India, who built the World Cup infrastructure.",
+   "what_to_watch_next": "Watch for the conclusion of Qatar's official multi-day public mourning period, during which government offices will remain closed.",
+   "vocab": [
+    {
+     "term": "Emir",
+     "say": "eh-MEER",
+     "meaning": "The title used by the sovereign monarch or ruler of some Muslim countries, particularly in the Middle East. Sheikh Hamad was the Emir of Qatar for 18 years."
+    },
+    {
+     "term": "liquefied natural gas",
+     "say": "LIK-wuh-fyde NA-chuh-rul GAS",
+     "meaning": "Natural gas that has been cooled into a liquid state for easier and safer shipping. Under Sheikh Hamad's rule, Qatar became the world's largest exporter of this fuel."
+    },
+    {
+     "term": "abdicate",
+     "say": "AB-dih-kayt",
+     "meaning": "To formally give up a high office or royal power. Sheikh Hamad voluntarily stepped down in 2013 to hand power to his son."
+    }
+   ],
+   "sources": [
+    {
+     "outlet": "BBC",
+     "url": "https://www.bbc.co.uk/news/articles/cql1qdq14xro?at_medium=RSS&at_campaign=rss"
+    },
+    {
+     "outlet": "Al Jazeera",
+     "url": "https://www.aljazeera.com/video/newsfeed/2026/7/12/the-man-who-changed-the-arab-world?traffic_source=rss"
+    },
+    {
+     "outlet": "DW",
+     "url": "https://www.dw.com/en/qatar-former-emir-sheikh-hamad-bin-khalifa-al-thani-dies-at-74/a-77922794?maca=en-rss-en-all-1573-rdf"
+    },
+    {
+     "outlet": "Al Jazeera",
+     "url": "https://www.aljazeera.com/news/2026/7/12/funeral-prayers-held-for-qatars-father-emir-sheikh-hamad-in-doha?traffic_source=rss"
+    }
+   ]
+  },
+  {
+   "headline": "Ukrainian drone strikes force Russia to halt shipping in Sea of Azov",
+   "what_happened": "Russia has suspended all commercial shipping in the Sea of Azov and through the Don-Azov canal after a massive wave of Ukrainian drone strikes. Ukraine's drone forces claimed they hit 10 Russian oil tankers, four ferries, and a major oil refinery in Syzran over the weekend. Drone strikes also targeted electricity facilities in occupied Crimea, sparking widespread blackouts.",
+   "why_it_matters": "The Sea of Azov is a crucial military and economic shipping route that Russia uses to export oil, grain, and steel. Analysts say the suspension effectively cuts off Russia's Caspian Sea fleet from the world's oceans and severely disrupts fuel supply lines to Russian military forces in southern Ukraine. Ukraine's broader strategy is to isolate the occupied Crimean peninsula by destroying its transport and energy networks.",
+   "what_to_watch_next": "Watch for whether Russian authorities attempt to reopen the Don-Azov canal under armed escort, and monitor if Ukraine launches further strikes against the key Russian port of Novorossiysk.",
+   "vocab": [
+    {
+     "term": "Caspian Sea",
+     "say": "KAS-pee-un SEE",
+     "meaning": "The world's largest inland body of water, bordered by Russia, Iran, and other nations. It has no natural connection to the open oceans, making the Don-Azov canal Russia's only way to move ships out of it."
+    },
+    {
+     "term": "shadow fleet",
+     "say": "SHA-doh FLEET",
+     "meaning": "A network of older, poorly insured commercial ships used by a country to transport oil secretly and bypass international trade bans. Ukraine targeted several tankers belonging to this fleet."
+    }
+   ],
+   "sources": [
+    {
+     "outlet": "Guardian",
+     "url": "https://www.theguardian.com/world/2026/jul/12/ukrainian-drone-strikes-force-russia-to-suspend-shipping-in-sea-of-azov"
+    }
+   ]
+  },
+  {
+   "headline": "Indian officials host Taliban delegation to discuss agricultural trade and food security",
+   "what_happened": "A high-level delegation from the Taliban administration of Afghanistan, led by Agriculture Minister Abdullah Omari, completed a six-day visit to New Delhi to discuss bilateral trade. Indian officials met with the delegation to review potential cooperation in agriculture, irrigation, livestock, and food processing. The Taliban expressed interest in acquiring climate-resilient and bio-fortified seeds from India.",
+   "why_it_matters": "India does not officially recognize the Taliban as the legitimate government of Afghanistan, but it has gradually stepped up diplomatic engagement. Omari is the fourth Taliban minister to visit India in the past year, showing New Delhi's pragmatic approach to securing regional stability and managing food security. Traditional land and sea routes for Indian aid have recently been disrupted by the US conflict with Iran, forcing both sides to look for alternative trade arrangements.",
+   "what_to_watch_next": "Watch for whether the Indian government approves the export of specialized seeds to Afghanistan, and check if India decides to formally upgrade its diplomatic team in Kabul.",
+   "vocab": [
+    {
+     "term": "chargé d'affaires",
+     "say": "shar-ZHAY duh-FAIR",
+     "meaning": "A diplomat who temporarily runs an embassy in the absence of an ambassador. India upgraded its team in Kabul to this level despite not officially recognizing the government."
+    },
+    {
+     "term": "bio-fortified",
+     "say": "BYE-oh FOR-tih-fyde",
+     "meaning": "Crops that have been bred to have higher nutritional value. India discussed sharing these types of crops to help Afghanistan combat food shortages."
+    }
+   ],
+   "sources": [
+    {
+     "outlet": "The Hindu",
+     "url": "https://www.thehindu.com/news/national/india-discusses-agricultural-collaboration-with-taliban-governement-of-afghanistan/article71214284.ece"
+    }
+   ]
+  },
+  {
+   "headline": "Scientists launch rapid clinical trial for Ebola treatment in Congo",
+   "what_happened": "Medical researchers in the Democratic Republic of the Congo have enrolled the first patients in a clinical trial to test two experimental drugs against the Ebola virus. The trial began just six weeks after the World Health Organization declared the outbreak a global emergency. Patients will be given either the antiviral drug remdesivir, an antibody treatment called MBP134, or standard supportive care.",
+   "why_it_matters": "The current outbreak is caused by the Bundibugyo strain of Ebola, which currently has no approved vaccine or treatment and kills about one in three infected people. Setting up a scientific trial this quickly is unprecedented, but researchers face major hurdles on the ground. Frontline health workers have gone on strike due to unpaid wages, and some burial teams have faced violent attacks from local communities suspicious of the medical response.",
+   "what_to_watch_next": "Watch for preliminary safety data from the clinical trials in Ituri province, and monitor whether the Congolese government resolves the salary disputes to end the healthcare worker strikes.",
+   "vocab": [
+    {
+     "term": "clinical trial",
+     "say": "KLIN-ih-kul TRY-ul",
+     "meaning": "A scientific study done on human volunteers to see if a medical treatment is safe and effective. This trial is testing two drugs that previously succeeded in animal testing."
+    },
+    {
+     "term": "monoclonal antibody",
+     "say": "MAH-noh-KLOH-nul AN-tih-bah-dee",
+     "meaning": "Cloned, laboratory-made proteins designed to mimic the immune system's ability to fight off specific viruses. The drug MBP134 uses these to target and neutralize the Ebola virus."
+    }
+   ],
+   "sources": [
+    {
+     "outlet": "Guardian",
+     "url": "https://www.theguardian.com/global-development/2026/jul/12/record-breaking-ebola-treatment-trial-drc"
+    }
+   ]
+  }
+ ],
+ "follow_ups": [
+  {
+   "about": "US-Iran conflict",
+   "update": "The ongoing conflict between the US and Iran has disrupted India's traditional aid routes to Afghanistan. India had previously routed much of its food and medical assistance to Kabul through Iran's Chabahar port."
+  }
+ ]
+}
