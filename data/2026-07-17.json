@@ -1,0 +1,225 @@
+{
+ "date": "2026-07-17",
+ "date_label": "Friday, 17 July 2026",
+ "generated_at": "2026-07-16T22:40:55+00:00",
+ "day_summary": "An Italian court has sentenced a former motorway chief to 12 years in prison over the deadly 2018 Genoa bridge collapse. Meanwhile, the US and Brazil clashed over new trade tariffs, and the US military disabled its first oil tanker as it enforced its port restrictions against Iran.",
+ "stories": [
+  {
+   "headline": "Italian court sentences former motorway chief to 12 years over 2018 Genoa bridge collapse",
+   "what_happened": "An Italian court has convicted 32 people over the 2018 collapse of the Morandi bridge in Genoa. The disaster killed 43 people when a section of the highway plunged onto buildings below. The former head of the motorway operator, Giovanni Castellucci, was sentenced to 12 years in prison. The court found him guilty of manslaughter and negligence.",
+   "why_it_matters": "This disaster became a symbol of Italy’s failing public infrastructure. Prosecutors argued that the private operators delayed crucial maintenance to increase corporate profits. The operators denied this, claiming the collapse was due to an original construction defect in the concrete-encased cables. The ruling ends an eight-year investigation and trial, but the legal battle is not over.",
+   "what_to_watch_next": "Watch for the defense team to file formal appeals against the convictions, and monitor whether the Italian government launches new safety audits on other aging concrete viaducts.",
+   "vocab": [
+    {
+     "term": "statute of limitations",
+     "say": "STACH-oot of lim-ih-TAY-shunz",
+     "meaning": "A law that sets a maximum time limit for starting legal proceedings after an event. In this trial, several minor charges were dismissed because too much time had passed."
+    },
+    {
+     "term": "manslaughter",
+     "say": "MAN-slaw-ter",
+     "meaning": "The crime of killing a person without intending to do so, often through extreme carelessness. The court convicted the highway executives of this charge."
+    },
+    {
+     "term": "viaduct",
+     "say": "VYE-uh-dukt",
+     "meaning": "A long bridge-like structure that carries a road or railway over a valley or low ground. The collapsed Morandi structure was a busy highway viaduct."
+    }
+   ],
+   "sources": [
+    {
+     "outlet": "BBC",
+     "url": "https://www.bbc.co.uk/news/articles/c36dnz1zez5o?at_medium=RSS&at_campaign=rss"
+    },
+    {
+     "outlet": "Al Jazeera",
+     "url": "https://www.aljazeera.com/video/newsfeed/2026/7/16/former-italian-motorway-chief-sentenced-over-bridge-collapse?traffic_source=rss"
+    },
+    {
+     "outlet": "Al Jazeera",
+     "url": "https://www.aljazeera.com/news/2026/7/16/ex-ceo-of-italian-motorway-sentenced-to-12-years-for-genoa-bridge-collapse?traffic_source=rss"
+    },
+    {
+     "outlet": "Guardian",
+     "url": "https://www.theguardian.com/world/2026/jul/16/genoa-bridge-tragedy-former-italian-motorways-boss-sentenced-12-years"
+    }
+   ]
+  },
+  {
+   "headline": "Delhi High Court orders regular medical checks for fasting activist Sonam Wangchuk",
+   "what_happened": "The Delhi High Court has ordered the government to monitor the health of Ladakhi activist Sonam Wangchuk. Wangchuk is on the 19th day of an indefinite hunger strike at Jantar Mantar in Delhi. Doctors say he has lost over nine kilograms and his body is now breaking down muscle tissue for energy. He is demanding the resignation of Education Minister Dharmendra Pradhan over recent exam paper leaks.",
+   "why_it_matters": "Wangchuk is a highly respected educator and climate activist whose protest has drawn support from students and opposition leaders. Despite his weakening condition and a court petition seeking his forced hospitalization, he refuses to end his fast. He argues that giving up without a response from the government would destroy public accountability.",
+   "what_to_watch_next": "Monitor the planned march to Parliament organized by his supporters on July 20, 2026, and watch for any further court hearings regarding forced medical treatment.",
+   "vocab": [
+    {
+     "term": "hunger strike",
+     "say": "HUNG-ger stryke",
+     "meaning": "A form of protest where a person refuses to eat until their demands are met. Wangchuk is using this to demand accountability from the education ministry."
+    },
+    {
+     "term": "public interest litigation",
+     "say": "PUB-lik IN-trest lih-tih-GAY-shun",
+     "meaning": "A lawsuit filed in court to protect the rights or well-being of the general public. A lawyer filed this type of petition to force the government to save Wangchuk's life."
+    },
+    {
+     "term": "ketones",
+     "say": "KEE-tohnz",
+     "meaning": "Chemicals made by the liver when the body burns fat instead of carbohydrates for fuel. Doctors found these in Wangchuk's urine, showing his body has run out of normal energy reserves."
+    }
+   ],
+   "sources": [
+    {
+     "outlet": "The Hindu",
+     "url": "https://www.thehindu.com/news/cities/Delhi/as-wangchuks-health-worsens-delhi-high-court-orders-regular-monitoring/article71231021.ece"
+    },
+    {
+     "outlet": "The Hindu",
+     "url": "https://www.thehindu.com/videos/from-ice-stupas-to-hunger-strikes-the-journey-of-sonam-wangchuk/article71231466.ece"
+    },
+    {
+     "outlet": "Indian Express",
+     "url": "https://indianexpress.com/article/india/sonam-wangchuk-cjp-protest-hunger-strike-day-19-health-10788855/"
+    },
+    {
+     "outlet": "Indian Express",
+     "url": "https://indianexpress.com/article/india/shashi-tharoor-letter-sonam-wangchuk-jantar-cjp-mantar-hunger-strike-10788577/"
+    }
+   ]
+  },
+  {
+   "headline": "UPDATE: US strikes first oil tanker in sea barrier enforcement as India warns sailors to avoid vital Gulf channel",
+   "what_happened": "The US military has used Hellfire missiles to disable a commercial oil tanker, the Belma, which it accused of trying to break its newly restarted port ban against Iran. This escalation comes as India's maritime administration directed shipping companies to stop deploying Indian sailors on vessels transiting the vital Gulf channel. We were previously watching for diplomatic efforts to reopen the shipping lane, but tensions have instead intensified with direct US strikes and retaliatory Iranian missile attacks targeting US allies in the region.",
+   "why_it_matters": "This narrow waterway is a vital shipping lane through which a significant portion of global energy supplies passes. The conflict has already resulted in the deaths of 13 Indian sailors since late February, including a recent fatality that led India to protest directly to Tehran. By instructing shipping firms to avoid sending Indian crew members to this high-risk zone, New Delhi is attempting to protect its citizens as the US and Iran exchange direct military blows.",
+   "what_to_watch_next": "Watch for Iran's response to the disabling of the Belma, monitor whether shipping companies comply with the Indian government's advisory, and track if the rebel forces in Yemen act on threats to close Red Sea oil routes in support of Iran.",
+   "vocab": [
+    {
+     "term": "mariners",
+     "say": "MAIR-ih-nerz",
+     "meaning": "People who navigate or work on ships at sea. India is one of the world's largest suppliers of these crew members, who are now being told to avoid the conflict zone."
+    },
+    {
+     "term": "merchant vessel",
+     "say": "MER-chunt VES-ul",
+     "meaning": "A watercraft used for commercial transport of cargo rather than military purposes. These commercial ships are increasingly caught in the crossfire between the US and Iran."
+    }
+   ],
+   "sources": [
+    {
+     "outlet": "BBC",
+     "url": "https://www.bbc.co.uk/news/articles/clyqwkegqk0o?at_medium=RSS&at_campaign=rss"
+    },
+    {
+     "outlet": "Guardian",
+     "url": "https://www.theguardian.com/world/2026/jul/16/us-intensifies-attacks-on-iran-as-tehran-hits-back-at-gulf-states"
+    },
+    {
+     "outlet": "The Hindu",
+     "url": "https://www.thehindu.com/news/national/avoid-deploying-indian-sailors-on-vessels-moving-via-strait-of-hormuz-dgma-to-shipping-companies/article71231440.ece"
+    },
+    {
+     "outlet": "Indian Express",
+     "url": "https://indianexpress.com/article/india/dont-deploy-indian-sailors-on-ships-passing-through-hormuz-india-tells-shipping-firms-10788935/"
+    }
+   ]
+  },
+  {
+   "headline": "US imposes 25% tariffs on Brazilian imports, sparking retaliatory threats from Brazil",
+   "what_happened": "The US government has announced it will impose 25% taxes on thousands of Brazilian imports starting July 22, 2026, including sugar, clothing, paper, and steel. The US trade office justified the move by claiming a yearlong investigation proved Brazil has engaged in unfair trade practices, such as digital trade restrictions and illegal deforestation. Brazil's President Luiz In\u0001acio Lula da Silva strongly rejected the move, calling it a \"lamentable milestone\" and vowing to launch retaliatory trade measures.",
+   "why_it_matters": "This is the first time the Trump administration is using Section 301 of US trade law to impose tariffs since the US Supreme Court struck down its previous sweeping global tariff policies. Lula and his allies argue the tariffs are an attempt by Donald Trump to help his close ally, former Brazilian President Jair Bolsonaro, whose son Fl\u0001avio Bolsonaro is running against Lula in the upcoming October elections. To limit the impact on US voters, the White House exempted popular commodities like beef and coffee, which are already facing high inflation in the US.",
+   "what_to_watch_next": "Watch for the tariffs to officially take effect on July 22, 2026, track whether Brazil files a formal dispute with the World Trade Organization, and monitor how this escalation affects Lula's poll standings ahead of the October election.",
+   "vocab": [
+    {
+     "term": "Section 301",
+     "say": "SEK-shun three-oh-wun",
+     "meaning": "A provision in US trade law that allows the president to investigate and take action, including imposing taxes, against foreign countries deemed to have unfair trade practices."
+    },
+    {
+     "term": "tariff",
+     "say": "TAIR-if",
+     "meaning": "A tax imposed by a government on goods and services imported from other countries, used to make foreign products more expensive and protect domestic industries."
+    },
+    {
+     "term": "export advantage",
+     "say": "EK-sport ad-VAN-tij",
+     "meaning": "A situation where a country sells more goods to a trading partner than it buys from them. The US holds this position with Brazil despite imposing new taxes on Brazilian goods."
+    }
+   ],
+   "sources": [
+    {
+     "outlet": "Al Jazeera",
+     "url": "https://www.aljazeera.com/economy/2026/7/16/us-to-impose-new-25-percent-tariffs-on-some-brazilian-imports?traffic_source=rss"
+    },
+    {
+     "outlet": "Guardian",
+     "url": "https://www.theguardian.com/us-news/2026/jul/16/brazil-us-tariffs"
+    },
+    {
+     "outlet": "DW",
+     "url": "https://www.dw.com/en/us-slaps-25-tariffs-on-brazil-with-election-looming/a-77978372?maca=en-rss-en-all-1573-rdf"
+    }
+   ]
+  },
+  {
+   "headline": "More than 500 displaced minority refugees feared dead in double shipwreck off Myanmar",
+   "what_happened": "The United Nations has announced that more than 500 members of a persecuted Muslim minority are feared dead after two overcrowded boats sank off the coast of Myanmar. The vessels, carrying people fleeing war-torn Rakhine State and overcrowded camps in Bangladesh, departed in late June during hazardous heavy seasonal rains. One boat carrying about 250 people lost contact shortly after leaving, while a second boat with 280 people reportedly sank on July 8 off the Ayeyarwady coast.",
+   "why_it_matters": "This minority community is heavily persecuted in Myanmar, where they are denied citizenship and face systemic violence. Tens of thousands risk their lives annually on dangerous sea routes in the Bay of Bengal, operated by human smuggling networks. This potential tragedy highlights how deteriorating conditions in Myanmar's civil war and limited opportunities in Bangladeshi refugee camps are driving more people to undertake desperate journeys.",
+   "what_to_watch_next": "Watch for official confirmation of the shipwrecks and casualty numbers from local maritime authorities, and monitor if regional coast guards launch enhanced search-and-rescue operations.",
+   "vocab": [
+    {
+     "term": "refugee",
+     "say": "REF-yoo-jee",
+     "meaning": "A person who has been forced to leave their country to escape war, persecution, or natural disaster. More than a million members of this minority group currently live in camps in Bangladesh."
+    },
+    {
+     "term": "smuggling network",
+     "say": "SMUG-ling NET-werk",
+     "meaning": "An illegal criminal organization that moves people across borders secretly, often charging high fees. These networks operate the dangerous, unseaworthy boats used by fleeing families."
+    }
+   ],
+   "sources": [
+    {
+     "outlet": "Guardian",
+     "url": "https://www.theguardian.com/world/2026/jul/16/hundreds-of-refugees-feared-dead-after-two-suspected-shipwrecks-off-myanmar-un"
+    }
+   ]
+  },
+  {
+   "headline": "UPDATE: Uganda discharges last Ebola patient as WHO warns of rapid spread in Congo",
+   "what_happened": "Uganda has discharged its last active Ebola patient, starting a 42-day countdown to be officially declared free of the virus. We were previously watching for the resolution of a healthcare worker strike in the Democratic Republic of the Congo (DRC) and safety data from testing of experimental treatments. However, the World Health Organization (WHO) has now warned that the outbreak in the DRC is spreading at an unprecedented speed, surpassing 2,000 cases in just two months, and healthcare workers there have indeed launched a strike over unpaid wages.",
+   "why_it_matters": "The Bundibugyo strain of Ebola causing this outbreak has no approved vaccine, making early detection and isolation critical. While Uganda's strong healthcare infrastructure successfully contained its imported cases with a low mortality rate, the DRC faces active conflict, deep community mistrust, and a shortage of resources, which are hindering containment efforts. The US has responded by imposing strict travel restrictions on individuals coming from the DRC, a move Uganda is lobbying to avoid for itself.",
+   "what_to_watch_next": "Track whether Uganda registers any new cases before its 42-day countdown ends, monitor if the Congolese government resolves the salary dispute to end the medical strike, and watch for initial safety results from Oxford University's newly launched vaccine studies.",
+   "vocab": [
+    {
+     "term": "transmission chain",
+     "say": "tranz-MISH-un chayn",
+     "meaning": "The sequence of events through which an infectious disease spreads from one person to another. In the DRC, 80 percent of new cases are from unknown chains, meaning the virus is spreading undetected."
+    },
+    {
+     "term": "incubation period",
+     "say": "in-kyoo-BAY-shun PEER-ee-ud",
+     "meaning": "The time between catching an infection and symptoms appearing. For Ebola, this is up to 21 days, requiring Uganda to go 42 days (two cycles) without a case to be declared safe."
+    }
+   ],
+   "sources": [
+    {
+     "outlet": "BBC",
+     "url": "https://www.bbc.co.uk/news/articles/cx2myxjv172o?at_medium=RSS&at_campaign=rss"
+    },
+    {
+     "outlet": "Al Jazeera",
+     "url": "https://www.aljazeera.com/news/2026/7/16/ebola-spreading-more-quickly-in-drc-while-uganda-is-close-to-being-virus-free?traffic_source=rss"
+    },
+    {
+     "outlet": "Guardian",
+     "url": "https://www.theguardian.com/global-development/2026/jul/16/uganda-travel-restrictions-last-ebola-patient-discharged"
+    }
+   ]
+  }
+ ],
+ "follow_ups": [
+  {
+   "about": "Yemen's four-year truce collapse",
+   "update": "Saudi Arabia has launched retaliatory airstrikes on Yemen's Sanaa airport, prompting fresh rebel threats to target Saudi oil and critical infrastructure if Riyadh continues its intervention."
+  }
+ ]
+}
