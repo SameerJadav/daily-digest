@@ -1,0 +1,219 @@
+{
+ "date": "2026-07-19",
+ "date_label": "Sunday, 19 July 2026",
+ "generated_at": "2026-07-18T22:34:21+00:00",
+ "day_summary": "India made space history with its first successful private orbital rocket launch, while Germany's Jens Spahn and Hungary's president both stepped down amid political controversies. Meanwhile, the US-Iran conflict escalated with the first confirmed US military deaths in Jordan, and Indian police forcibly hospitalized fasting activist Sonam Wangchuk.",
+ "stories": [
+  {
+   "headline": "Skyroot Aerospace successfully launches Vikram-1, India's first private commercial orbital rocket",
+   "what_happened": "Skyroot Aerospace, a Hyderabad-based space startup, successfully launched its first commercial orbital rocket, Vikram-1, from the Satish Dhawan Space Centre in Sriharikota, Andhra Pradesh. The 22-meter-tall rocket carried experimental payloads, including a student-built solar research module called VISWA-M and symbolic items like a lab-grown diamond, reaching low-Earth orbit in a 16-minute flight. The mission aims to test the rocket's engines, flight systems, and guidance controls to gather critical data for future spaceflights.",
+   "why_it_matters": "This launch makes India only the third country, after the US and China, to have a private company successfully put a rocket into orbit. It marks a huge shift in India's space ecosystem, which was entirely run by the government's space agency until the sector was opened to private investment in 2020. Startups like Skyroot aim to offer highly customized 'cab services' to space, letting companies launch small satellites without waiting months or years for massive government missions.",
+   "what_to_watch_next": "Watch for Skyroot's second planned test flight later this year before it transitions to routine commercial flights in 2027. Also, monitor whether the government releases new policies to address concerns raised by the Indian Space Research Organisation regarding scientists leaving the state agency for private startups.",
+   "vocab": [
+    {
+     "term": "Payload",
+     "say": "PAY-lohd",
+     "meaning": "The carrying capacity of an aircraft or spacecraft, usually referring to satellites or scientific instruments carried into space. In this story, Vikram-1 carried 350 kilograms of payloads, including student experiments."
+    },
+    {
+     "term": "Low-Earth orbit",
+     "say": "loh-URTH OR-bit",
+     "meaning": "An altitude relatively close to Earth's surface, typically between 160 and 2,000 kilometres up, where most satellites and the space station travel."
+    },
+    {
+     "term": "Avionics",
+     "say": "ay-vee-ON-iks",
+     "meaning": "The electronic systems used on aircraft and spacecraft, including communication, navigation, and display systems."
+    }
+   ],
+   "sources": [
+    {
+     "outlet": "BBC",
+     "url": "https://www.bbc.co.uk/news/articles/clyekv7rld3o?at_medium=RSS&at_campaign=rss"
+    },
+    {
+     "outlet": "DW",
+     "url": "https://www.dw.com/en/india-launches-first-private-rocket-into-space/a-78016562?maca=en-rss-en-all-1573-rdf"
+    },
+    {
+     "outlet": "The Hindu",
+     "url": "https://www.thehindu.com/news/national/andhra-pradesh/space-payload-built-by-vit-ap-students-launched-aboard-vikram-1-rocket/article71237786.ece"
+    }
+   ]
+  },
+  {
+   "headline": "German conservative leader Jens Spahn resigns over surrogacy controversy",
+   "what_happened": "Jens Spahn, a prominent leader of Germany's governing conservative Christian Democrat party, resigned from his powerful post as parliamentary group leader on Saturday. His resignation followed a heavy backlash after he and his husband announced they had had a baby through a surrogate mother in the US. Spahn stated that his personal happiness in starting a family was incompatible with his high political office.",
+   "why_it_matters": "Surrogacy is strictly illegal in Germany, a policy strongly backed by Spahn's own party and previously supported by Spahn himself. Critics accused the 46-year-old former health minister of blatant hypocrisy for using a service abroad that his party actively denies to childless couples at home. The scandal threatens Chancellor Friedrich Merz’s political standing ahead of crucial state elections in eastern Germany this autumn, where the far-right Alternative for Germany party is gaining ground.",
+   "what_to_watch_next": "Watch for the Christian Democrats and their Bavarian sister party to propose a new parliamentary group leader to succeed Spahn in the coming days. Monitor the upcoming regional elections in Saxony-Anhalt this autumn to see if the controversy boosts support for the far-right opposition.",
+   "vocab": [
+    {
+     "term": "Surrogacy",
+     "say": "SUR-uh-guh-see",
+     "meaning": "An arrangement where a woman carries and gives birth to a baby for another person or couple. In Germany, this practice is illegal and punishable by prison, though raising a child born to a surrogate abroad is not."
+    },
+    {
+     "term": "Hypocrisy",
+     "say": "hih-POK-ruh-see",
+     "meaning": "A situation where someone acts in a way that goes against the moral standards or rules they publicly advocate for."
+    }
+   ],
+   "sources": [
+    {
+     "outlet": "BBC",
+     "url": "https://www.bbc.co.uk/news/articles/cq56e9n1ddzo?at_medium=RSS&at_campaign=rss"
+    },
+    {
+     "outlet": "Al Jazeera",
+     "url": "https://www.aljazeera.com/news/2026/7/18/top-german-conservative-quits-after-surrogacy-sparks-backlash-within-party?traffic_source=rss"
+    },
+    {
+     "outlet": "Guardian",
+     "url": "https://www.theguardian.com/world/2026/jul/18/germany-cdu-party-chair-resigns-surrogacy-jens-spahn"
+    },
+    {
+     "outlet": "DW",
+     "url": "https://www.dw.com/en/germany-cdu-s-jens-spahn-resigns-amid-surrogacy-controversy/a-78019238?maca=en-rss-en-all-1573-rdf"
+    }
+   ]
+  },
+  {
+   "headline": "UPDATE: Two US service members killed in Jordan as US-Iran hostilities escalate",
+   "what_happened": "Two US service members were killed and another went missing following an Iranian ballistic missile and drone attack on a military base in Jordan on Friday. This escalation marks the first confirmed US military deaths since direct mainland fighting resumed and the temporary ceasefire collapsed last week, ending the brief truce we have been tracking. The Iranian attacks also struck vital civilian water and power infrastructure in Kuwait and Bahrain, while US forces carried out a seventh consecutive night of strikes on Iranian mainland targets.",
+   "why_it_matters": "The deaths raise the US military death toll in this conflict to 16, significantly increasing pressure on US President Donald Trump to respond with heavier military action. By targeting civilian desalination and energy plants in Gulf states like Kuwait, Iran is threatening the basic survival of US-allied nations in the arid region. The Gulf Cooperation Council has condemned these attacks on civilian infrastructure as war crimes, bringing the region closer to an all-out, multi-nation war.",
+   "what_to_watch_next": "Watch for the US military to release the names of the killed service members within 24 hours of notifying their families. Monitor whether the US launches retaliatory strikes against Iranian mainland targets in the coming days, and check if Kuwait or other Gulf allies seek emergency international diplomatic intervention.",
+   "vocab": [
+    {
+     "term": "Infrastructure",
+     "say": "IN-fruh-struk-chur",
+     "meaning": "The basic physical and organizational structures, like roads, power grids, and water systems, needed for a society to function."
+    },
+    {
+     "term": "Retaliation",
+     "say": "ree-tal-ee-AY-shun",
+     "meaning": "The action of returning an attack or doing something harmful in return for an injury."
+    }
+   ],
+   "sources": [
+    {
+     "outlet": "BBC",
+     "url": "https://www.bbc.co.uk/news/articles/cn8nynv8ze8o?at_medium=RSS&at_campaign=rss"
+    },
+    {
+     "outlet": "Al Jazeera",
+     "url": "https://www.aljazeera.com/news/2026/7/18/us-military-says-two-service-members-killed-in-iranian-strike-in-jordan?traffic_source=rss"
+    },
+    {
+     "outlet": "Guardian",
+     "url": "https://www.theguardian.com/world/2026/jul/18/iran-attacks-us-allies-in-middle-east-in-second-week-of-renewed-conflict"
+    },
+    {
+     "outlet": "NPR",
+     "url": "https://www.npr.org/2026/07/18/nx-s1-5899039/us-troops-killed-missing-iran-jordan"
+    }
+   ]
+  },
+  {
+   "headline": "UPDATE: Indian activist Sonam Wangchuk forcibly hospitalised by police on day 21 of hunger strike",
+   "what_happened": "Delhi Police forcibly removed Ladakhi activist Sonam Wangchuk from his protest site at Jantar Mantar early Saturday morning and admitted him to Safdarjung Hospital, where he is refusing medical treatment. The police action comes on the 21st day of Wangchuk's hunger strike, which we were watching after the Delhi High Court ordered daily medical checks on his deteriorating health. Police briefly shut down mobile internet and used plainclothes officers to grab Wangchuk behind raised white sheets, sparking minor scuffles with protesters.",
+   "why_it_matters": "The forced hospitalization has drawn fierce condemnation from major Indian opposition leaders, who accuse the central government of abusing its power to crush peaceful dissent. The clash has intensified the political crisis surrounding the student entrance exam scandal just two days before the start of Parliament's monsoon session. Despite the police action, student groups and the youth-led Cockroach Janta Party are refusing to clear the protest site and are planning to escalate their demonstrations.",
+   "what_to_watch_next": "Watch for the planned student march to Parliament on Monday, July 20, 2026, to see if the police block the protest. Monitor the Safdarjung Hospital medical bulletins to see if doctors decide to force-feed Wangchuk under court-approved emergency medical guidelines.",
+   "vocab": [
+    {
+     "term": "Satire",
+     "say": "SAT-ire",
+     "meaning": "The use of humor, irony, or exaggeration to expose and criticize people's stupidity or vices, particularly in politics. The Cockroach Janta Party began as a satirical social media movement before growing into a massive protest."
+    },
+    {
+     "term": "Intravenous",
+     "say": "in-truh-VEE-nus",
+     "meaning": "Administered directly into a vein, usually referring to fluids or medications. Wangchuk has refused intravenous therapy while hospitalized."
+    }
+   ],
+   "sources": [
+    {
+     "outlet": "DW",
+     "url": "https://www.dw.com/en/india-police-move-activist-sonam-wangchuk-to-hospital-on-court-orders/a-78015393?maca=en-rss-en-all-1573-rdf"
+    },
+    {
+     "outlet": "The Hindu",
+     "url": "https://www.thehindu.com/news/national/cjp-students-protest-at-delhi-jantar-mantar-sonam-wangchuk-hunger-strike-day-21-live-updates-july-18-2026/article71236930.ece"
+    },
+    {
+     "outlet": "The Hindu",
+     "url": "https://www.thehindu.com/news/national/sonam-wangchuk-shifted-to-hospital-hunger-strike-abhijeet-dipke-jantar-mantar-july-18-2026/article71236976.ece"
+    },
+    {
+     "outlet": "Indian Express",
+     "url": "https://indianexpress.com/article/india/police-move-sonam-wangchuk-to-hospital-from-jantar-mantar-after-20-day-fast-10791928/"
+    }
+   ]
+  },
+  {
+   "headline": "US parasite outbreak linked to Taco Bell and Taylor Farms iceberg lettuce",
+   "what_happened": "US health officials have traced a major outbreak of a stomach parasite to shredded iceberg lettuce supplied to Taco Bell restaurants by Taylor Farms de Mexico. At least 1,645 cases have been confirmed across five US states, prompting Taylor Farms to voluntarily recall all iceberg lettuce sourced from its facility in central Mexico. Taco Bell has removed the affected lettuce from its restaurants in Indiana, Kentucky, Michigan, Ohio, and West Virginia.",
+   "why_it_matters": "The outbreak is the largest in recent years, with over 30 US states overall recording cases of cyclosporiasis, which causes severe, explosive diarrhea. Large foodborne illness outbreaks often cause massive financial damage to fast-food chains by destroying public trust, as seen during a previous E. coli outbreak that heavily dented McDonald's sales. The expanding investigation is likely to disrupt supply chains for major retailers like Costco, Target, and Walmart, which also buy from Taylor Farms.",
+   "what_to_watch_next": "Watch for the US Food and Drug Administration to release findings in the coming weeks showing whether other produce grown in central Mexico is also contaminated. Monitor Taco Bell's upcoming quarterly financial results to see if the outbreak damages its scheduled business expansion into Germany and Poland by late 2026.",
+   "vocab": [
+    {
+     "term": "Parasite",
+     "say": "PAIR-uh-site",
+     "meaning": "An organism that lives on or inside another organism and feeds off it, often causing illness."
+    },
+    {
+     "term": "Cyclosporiasis",
+     "say": "sy-cloh-spuh-RY-uh-sis",
+     "meaning": "An intestinal illness caused by a microscopic parasite that is typically spread through contaminated food or water."
+    },
+    {
+     "term": "Recall",
+     "say": "REE-call",
+     "meaning": "A request by a manufacturer or government agency to return or destroy a product after safety defects or contamination are discovered."
+    }
+   ],
+   "sources": [
+    {
+     "outlet": "Guardian",
+     "url": "https://www.theguardian.com/us-news/2026/jul/18/cyclospora-iceberg-lettuce-recall"
+    },
+    {
+     "outlet": "DW",
+     "url": "https://www.dw.com/en/taco-bell-lettuce-tied-to-diarrhea-causing-parasite-outbreak/a-78015079?maca=en-rss-en-all-1573-rdf"
+    }
+   ]
+  },
+  {
+   "headline": "UPDATE: Hungary's President Tamás Sulyok agrees to stand down, ending his term",
+   "what_happened": "Hungarian President Tamás Sulyok signed the constitutional amendment ending his term at midnight on Sunday, July 19, 2026. We were watching for Sulyok's decision during his five-day window to sign the amendment passed by Prime Minister Péter Magyar's Tisza party to oust the Orbán loyalist. While Sulyok complied with the law, he issued a sharp public statement accusing Magyar's government of trampling the 'fundamental values of a free society' and violating the rule of law. Former Prime Minister Viktor Orbán also attacked the move, calling it 'tyranny.' Under the new law, Parliament Speaker Ágnes Forsthoffer will take over as interim president on Monday, July 20, 2026.",
+   "why_it_matters": "Sulyok's departure represents a major victory for Magyar, who has pledged to dismantle the deep-rooted political network Orbán spent 16 years building. The constitutional amendment also forces other key Orbán allies out, including the Constitutional Court's president Péter Polt, by setting a strict retirement age of 70 for judges. However, the aggressive tactics used by the new government have raised concerns among some international human rights groups, who warn that removing officials through rapid constitutional changes could set a dangerous precedent.",
+   "what_to_watch_next": "Watch for the Hungarian parliament to hold an election for a new president within the next 30 days. Monitor whether Péter Polt formally challenges his forced retirement under the new age limit rules.",
+   "vocab": [
+    {
+     "term": "Precedent",
+     "say": "PRESS-ih-dent",
+     "meaning": "An earlier event or action that is regarded as an example or guide to be considered in subsequent similar circumstances."
+    },
+    {
+     "term": "Rule of law",
+     "say": "rool-ov-LAW",
+     "meaning": "The principle that all people, institutions, and entities are accountable to laws that are publicly promulgated, equally enforced, and independently adjudicated."
+    }
+   ],
+   "sources": [
+    {
+     "outlet": "BBC",
+     "url": "https://www.bbc.co.uk/news/articles/cpd7q7eev7po?at_medium=RSS&at_campaign=rss"
+    },
+    {
+     "outlet": "Guardian",
+     "url": "https://www.theguardian.com/world/2026/jul/18/hungarys-president-agrees-to-stand-down-after-law-change-ends-his-term"
+    },
+    {
+     "outlet": "DW",
+     "url": "https://www.dw.com/en/hungary-s-president-signs-amendment-ending-his-own-term/a-78021311?maca=en-rss-en-all-1573-rdf"
+    }
+   ]
+  }
+ ],
+ "follow_ups": []
+}
