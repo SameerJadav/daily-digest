@@ -1,0 +1,189 @@
+{
+ "date": "2026-07-25",
+ "date_label": "Saturday, 25 July 2026",
+ "generated_at": "2026-07-24T22:44:19+00:00",
+ "day_summary": "Wildfires across Spain and France have triggered national emergencies and forced over 200,000 people to flee, while the International Criminal Court voted to remove its chief prosecutor. Meanwhile, the Indian government approved a tougher anti-leak law and sacked dozens of exam officials following intense public pressure.",
+ "stories": [
+  {
+   "headline": "ICC member states vote to dismiss Chief Prosecutor Karim Khan",
+   "what_happened": "The International Criminal Court's governing body voted to remove Chief Prosecutor Karim Khan following allegations of sexual misconduct. Out of 125 member states, 82 voted in favor of his dismissal in a secret ballot. Khan, a British barrister, has denied the allegations of coercive sexual behavior toward a female aide, and his legal team promised to challenge the decision. Following the vote, Venezuela announced it will withdraw from the court, citing geographic bias.",
+   "why_it_matters": "This is the first time a chief prosecutor has ever been removed from the court since its creation. Khan gained global attention for seeking arrest warrants against Russian President Vladimir Putin and Israeli Prime Minister Benjamin Netanyahu, drawing heavy criticism from the US and Israel. While Khan's removal does not affect the active warrants, it plunges the global tribunal into a leadership crisis during intense geopolitical pressure.",
+   "what_to_watch_next": "Watch for the court to begin the election process for a new chief prosecutor, with a vote expected next year. Monitor whether the US Congress approves new sanctions or travel bans against remaining court staff, and track if any other nations follow Venezuela in withdrawing from the court.",
+   "vocab": [
+    {
+     "term": "barrister",
+     "say": "BAIR-is-tur",
+     "meaning": "A type of lawyer in the UK and some other countries who is qualified to represent clients in higher courts. In this story, it refers to Karim Khan's professional background before leading the court."
+    },
+    {
+     "term": "tribunal",
+     "say": "try-BYOO-nul",
+     "meaning": "A special court or assembly appointed to judge a particular type of problem or dispute. In this story, it refers to the International Criminal Court."
+    }
+   ],
+   "sources": [
+    {
+     "outlet": "Guardian",
+     "url": "https://www.theguardian.com/law/2026/jul/24/karim-khan-ousted-from-role-as-prosecutor-of-international-criminal-court"
+    },
+    {
+     "outlet": "NPR",
+     "url": "https://www.npr.org/2026/07/24/g-s1-135498/icc-court-prosecutor-karim-khan-vote"
+    },
+    {
+     "outlet": "DW",
+     "url": "https://www.dw.com/en/icc-votes-to-dismiss-chief-prosecutor-karim-khan/a-78092577?maca=en-rss-en-all-1573-rdf"
+    },
+    {
+     "outlet": "Al Jazeera",
+     "url": "https://www.aljazeera.com/news/2026/7/24/icc-prosecutor-khan-removed-over-sexual-misconduct-allegations-sources?traffic_source=rss"
+    }
+   ]
+  },
+  {
+   "headline": "UPDATE: US-Iran conflict escalates with direct strikes on bases and Saudi raid on Hodeidah",
+   "what_happened": "The US launched its 13th consecutive night of airstrikes on Iran, targeting command centers and coastal surveillance sites, while Iran retaliated with drone strikes on US bases in Bahrain, Jordan, and Kuwait. Additionally, Saudi Arabia launched airstrikes on the Houthi-held city of Hodeidah in Yemen, hitting telecommunications facilities. This marks a major escalation after the Houthis, who are allied with Iran, attacked two Saudi oil tankers in the Red Sea.",
+   "why_it_matters": "This continues the direct state-on-state warfare between the US and Iran. We were previously watching for a formal decision by US President Donald Trump on whether to launch threatened massive airstrikes, which he now says he is close to deciding. The Saudi entry into the fighting risks collapsing a fragile informal truce that has held in Yemen since 2022, threatening to pull yet another country into a widening regional war.",
+   "what_to_watch_next": "Watch for whether President Trump makes a final decision on launching the threatened massive offensive against Iran. Monitor if Saudi Arabia and the Houthis expand their direct strikes, and track if other international airlines follow Qatar Airways in suspending flights to Gulf nations.",
+   "vocab": [
+    {
+     "term": "blockade",
+     "say": "bloh-KADE",
+     "meaning": "An effort to cut off food, supplies, war material, or communications from a particular area by force. In this story, it refers to the Houthi efforts to stop ships from reaching Saudi ports."
+    },
+    {
+     "term": "truce",
+     "say": "troos",
+     "meaning": "An agreement between enemies or opponents to stop fighting for a certain period of time. In this story, it refers to the informal peace held between Saudi Arabia and the Houthis since 2022."
+    }
+   ],
+   "sources": [
+    {
+     "outlet": "Guardian",
+     "url": "https://www.theguardian.com/world/2026/jul/24/us-expands-iran-attacks-as-trump-warns-tehran-and-houthis-over-red-sea-strikes"
+    },
+    {
+     "outlet": "Guardian",
+     "url": "https://www.theguardian.com/world/live/2026/jul/24/us-iran-donald-trump-iraq-bahrain-kuwait-jordan-latest-news-updates"
+    },
+    {
+     "outlet": "Al Jazeera",
+     "url": "https://www.aljazeera.com/news/2026/7/24/saudis-strike-yemens-houthi-held-hodeida-rebel-media?traffic_source=rss"
+    },
+    {
+     "outlet": "NPR",
+     "url": "https://www.npr.org/2026/07/24/g-s1-135417/us-iran-war-updates"
+    }
+   ]
+  },
+  {
+   "headline": "West Bank clashes trigger plans for extensive Israeli military operation",
+   "what_happened": "At least four Palestinians and two Israelis were killed during a deadly confrontation in the village of Tell, near Nablus, triggering Israeli plans for a major military operation. The violence began when armed Israeli settlers entered the Palestinian village. A scuffle broke out over an armed settler's gun, leading to gunfire from both settlers and arriving Israeli troops. Following the shootout, settlers set fire to homes in neighboring towns, and the Israeli military raided a hospital in Nablus to arrest wounded Palestinians.",
+   "why_it_matters": "The clash is the deadliest single incident in the occupied territory this year. In response, Israeli Prime Minister Benjamin Netanyahu and Defense Minister Israel Katz announced forceful measures, including sending more troops, demolishing homes of the accused, and legalizing unauthorized settler outposts. Critics, including the Israeli Democrats party, warned these measures are intended to set the area ablaze.",
+   "what_to_watch_next": "Watch for the Israeli military to execute its planned extensive operation around Nablus, including house demolitions and arrests. Monitor whether Palestinian Authority security forces or local armed groups retaliate against neighboring Israeli settlements.",
+   "vocab": [
+    {
+     "term": "outpost",
+     "say": "OWT-pohst",
+     "meaning": "An unauthorized or newly built Israeli settlement on Palestinian land that is illegal even under Israeli law. In this story, Prime Minister Netanyahu has called for building and legalizing these camps."
+    },
+    {
+     "term": "premeditated",
+     "say": "pree-MEH-dih-tay-tid",
+     "meaning": "Planned or thought out in advance. In this story, video evidence suggests the deadly scuffle was not planned but started as a chaotic struggle over a weapon."
+    }
+   ],
+   "sources": [
+    {
+     "outlet": "Guardian",
+     "url": "https://www.theguardian.com/world/2026/jul/24/palestinians-israeli-killed-west-bank-shooting"
+    },
+    {
+     "outlet": "BBC",
+     "url": "https://www.bbc.co.uk/news/articles/cx2rxmye4k3o?at_medium=RSS&at_campaign=rss"
+    },
+    {
+     "outlet": "Al Jazeera",
+     "url": "https://www.aljazeera.com/video/newsfeed/2026/7/24/israeli-settlers-escalate-attacks-on-palestinians-near-nablus?traffic_source=rss"
+    },
+    {
+     "outlet": "Al Jazeera",
+     "url": "https://www.aljazeera.com/video/newsfeed/2026/7/24/israel-raids-hospital-shuts-off-nablus-following-deadly-settler-attack?traffic_source=rss"
+    }
+   ]
+  },
+  {
+   "headline": "Wildfires in Spain and France trigger national emergency and evacuations",
+   "what_happened": "Extreme wildfires in Spain and France have forced more than 200,000 people to evacuate or lock down, prompting Spain to declare its first-ever national emergency for a wildfire. In southwest France, a massive forest fire on the Cap Ferret peninsula has burned over 19,000 hectares of forest, forcing authorities to evacuate tourists by both land and sea. Near Madrid, Spain, three separate mountain blazes merged into a single massive front that is currently beyond the control of firefighters.",
+   "why_it_matters": "Intense heat and strong winds have created what officials call a perfect storm, making the fires nearly impossible to contain. The scale of the evacuations is unprecedented for these regions, with European Union nations rushing water-bombing planes and helicopters to help. Scientists point out that Europe is warming at twice the global average, causing soils to dry up and making forest fires far more frequent and destructive.",
+   "what_to_watch_next": "Watch for whether the wildfires near Madrid merge with a nearby blaze in Ávila province, which authorities are desperately trying to prevent. Monitor the upcoming visit of Spanish Prime Minister Pedro Sánchez to the emergency coordination center.",
+   "vocab": [
+    {
+     "term": "prefecture",
+     "say": "PREE-fek-chur",
+     "meaning": "An administrative jurisdiction or local government office in France. In this story, the Gironde prefecture is managing the mass evacuation of Cap Ferret."
+    },
+    {
+     "term": "peninsula",
+     "say": "puh-NIN-suh-luh",
+     "meaning": "A piece of land almost entirely surrounded by water but connected to the mainland. In this story, it refers to Cap Ferret, where tourists had to be rescued by boat."
+    }
+   ],
+   "sources": [
+    {
+     "outlet": "Guardian",
+     "url": "https://www.theguardian.com/world/2026/jul/24/france-evacuation-cap-ferret-peninsula-wildfire"
+    },
+    {
+     "outlet": "BBC",
+     "url": "https://www.bbc.co.uk/news/articles/czjlenp0xk8o?at_medium=RSS&at_campaign=rss"
+    },
+    {
+     "outlet": "DW",
+     "url": "https://www.dw.com/en/europe-wildfires-thousands-flee-by-boat-as-fires-spread-merge/a-78104513?maca=en-rss-en-all-1573-rdf"
+    },
+    {
+     "outlet": "Al Jazeera",
+     "url": "https://www.aljazeera.com/news/2026/7/24/spanish-police-accuse-tractor-driver-of-sparking-wildfire-as-blazes-spread?traffic_source=rss"
+    }
+   ]
+  },
+  {
+   "headline": "UPDATE: Indian government sacks 47 exam officials and approves draft anti-paper-leak bill",
+   "what_happened": "The Indian government approved tough amendments to India's anti-paper-leak law and terminated 47 officials from the National Testing Agency. The move came after activist Sonam Wangchuk ended his 26-day hunger strike, following written assurances from the government. Separately, the Supreme Court demanded a detailed response from the government on its plans to shift the national medical entrance exam, NEET, to a computer-based format with stronger cybersecurity.",
+   "why_it_matters": "This story continues our coverage of the Indian student protests and activist Sonam Wangchuk's hunger strike. We were watching for the Cabinet to discuss the draft anti-leak bill, which the government has now cleared. The new amendments increase jail time to 10 years and raise fines to ₹10 crore for organized fraud, while setting up fast-track courts to resolve cases in three months. The government also agreed to Wangchuk's demands, promising not to prosecute peaceful student protesters.",
+   "what_to_watch_next": "Watch for the Indian government to formally introduce the anti-paper-leak amendments in Parliament for a vote. Track whether the Supreme Court accepts the government's cybersecurity roadmap at the next scheduled hearing on August 3, 2026.",
+   "vocab": [
+    {
+     "term": "statutory",
+     "say": "STACH-oo-tree",
+     "meaning": "Decided or created by formal laws rather than custom or temporary orders. In this story, petitioners want NEET to be run by an independent, permanent statutory body."
+    },
+    {
+     "term": "malpractice",
+     "say": "mal-PRAK-tis",
+     "meaning": "Illegal, corrupt, or unethical professional behavior. In this story, it refers to the cheating, fraud, and leaking of question papers in national exams."
+    }
+   ],
+   "sources": [
+    {
+     "outlet": "The Hindu",
+     "url": "https://www.thehindu.com/news/national/centre-sacks-47-nta-officials-tightens-law-to-tackle-paper-leaks/article71263480.ece"
+    },
+    {
+     "outlet": "The Hindu",
+     "url": "https://www.thehindu.com/news/national/cjp-jantar-mantar-protest-live-updates-abhijeet-dipke-saurav-das-sonam-wangchuk-hunger-strike-dharmendra-pradhan-resignation/article71260680.ece"
+    },
+    {
+     "outlet": "The Hindu",
+     "url": "https://www.thehindu.com/news/national/supreme-court-seeks-centres-response-on-neet-reforms/article71263158.ece"
+    },
+    {
+     "outlet": "Indian Express",
+     "url": "https://indianexpress.com/article/india/after-breaking-26-day-fast-sonam-wangchuk-says-hunger-doesnt-taste-bad-10801314/"
+    }
+   ]
+  }
+ ],
+ "follow_ups": []
+}
